@@ -180,7 +180,7 @@ export function WaveChart({ data }: WaveChartProps) {
 
       {/* Active point metrics */}
       {activePoint && (
-        <div className="mt-4 grid grid-cols-4 gap-1.5 sm:gap-2">
+        <div className="mt-2 grid grid-cols-4 gap-1 sm:gap-1.5">
           <MetricChip label="Altura" value={`${formatNum(activePoint.waveHeight, 1)}m`} color="text-primary" />
           <MetricChip label="Periodo" value={`${formatNum(activePoint.wavePeriod, 1)}s`} color="text-chart-2" />
           <MetricChip label="Dir. Onda" value={degToCompass(activePoint.waveDirDeg)} color="text-muted-foreground" />
@@ -193,9 +193,9 @@ export function WaveChart({ data }: WaveChartProps) {
 
 function MetricChip({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-1.5 sm:px-3 py-2 text-center">
-      <p className={`text-[0.5rem] sm:text-[0.65rem] font-extrabold uppercase tracking-wide ${color}`}>{label}</p>
-      <p className="mt-1 text-sm sm:text-lg font-extrabold text-foreground leading-none">{value}</p>
+    <div className="rounded-md bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-1 sm:px-2 py-1 sm:py-1.5 text-center">
+      <p className={`text-[0.4rem] sm:text-[0.5rem] font-bold uppercase tracking-wide ${color}`}>{label}</p>
+      <p className="mt-0.5 text-[0.65rem] sm:text-xs font-bold text-foreground leading-none">{value}</p>
     </div>
   )
 }
