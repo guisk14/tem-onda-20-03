@@ -180,36 +180,22 @@ export function WaveChart({ data }: WaveChartProps) {
 
       {/* Active point metrics */}
       {activePoint && (
-        <div className="mt-3 flex items-center justify-between gap-1 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-2 py-2 sm:px-4 sm:py-2.5">
-          <MetricChip label="ALT" value={`${formatNum(activePoint.waveHeight, 1)}m`} accent />
-          <Divider />
-          <MetricChip label="PER" value={`${formatNum(activePoint.wavePeriod, 1)}s`} />
-          <Divider />
-          <MetricChip label="DIR" value={degToCompass(activePoint.waveDirDeg)} />
-          <Divider />
-          <MetricChip label="VNT" value={`${Math.round(activePoint.windSpeed)} ${degToCompass(activePoint.windDirDeg)}`} />
+        <div className="mt-4 grid grid-cols-4 gap-1.5 sm:gap-2">
+          <MetricChip label="Altura" value={`${formatNum(activePoint.waveHeight, 1)}m`} color="text-primary" />
+          <MetricChip label="Periodo" value={`${formatNum(activePoint.wavePeriod, 1)}s`} color="text-chart-2" />
+          <MetricChip label="Dir. Onda" value={degToCompass(activePoint.waveDirDeg)} color="text-muted-foreground" />
+          <MetricChip label="Vento" value={`${Math.round(activePoint.windSpeed)} km/h ${degToCompass(activePoint.windDirDeg)}`} color="text-chart-4" />
         </div>
       )}
     </div>
   )
 }
 
-function Divider() {
-  return <div className="h-6 w-px bg-[rgba(255,255,255,0.06)]" />
-}
-
-function MetricChip({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function MetricChip({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="flex flex-col items-center gap-0.5 min-w-0">
-      <span className="text-[0.5rem] sm:text-[0.55rem] font-medium uppercase tracking-wider text-[#64748B]">
-        {label}
-      </span>
-      <span
-        className={`text-xs sm:text-sm font-semibold leading-none truncate ${accent ? "text-primary" : "text-[#E2E8F0]"}`}
-        style={{ fontVariantNumeric: "tabular-nums" }}
-      >
-        {value}
-      </span>
+    <div className="rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-1.5 sm:px-3 py-2 text-center">
+      <p className={`text-[0.5rem] sm:text-[0.65rem] font-extrabold uppercase tracking-wide ${color}`}>{label}</p>
+      <p className="mt-1 text-sm sm:text-lg font-extrabold text-foreground leading-none">{value}</p>
     </div>
   )
 }
