@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react"
 import { formatNum, degToCompass, safeParseDate } from "@/lib/surf-utils"
 import type { ForecastData } from "@/lib/surf-utils"
+import { DaySelector } from "@/components/day-selector"
 
 interface ForecastTablesProps {
   data: ForecastData | null
@@ -103,25 +104,7 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         </h3>
 
         {/* Wind Day selector */}
-        {windSegments.length > 0 && (
-          <div className="mb-4 grid gap-1" style={{ gridTemplateColumns: `repeat(${windSegments.length}, minmax(0, 1fr))` }}>
-            {windSegments.map((seg, idx) => (
-              <button
-                key={seg.key}
-                type="button"
-                onClick={() => setSelectedWindDayIdx(idx)}
-                className={`flex flex-col items-center justify-center rounded-md px-1 py-1.5 text-center font-extrabold uppercase transition-colors cursor-pointer ${
-                  idx === selectedWindDayIdx
-                    ? "bg-primary/20 text-primary"
-                    : "bg-[rgba(255,255,255,0.04)] text-muted-foreground hover:bg-[rgba(255,255,255,0.08)]"
-                }`}
-              >
-                <span className="text-[0.6rem] sm:text-xs leading-none">{seg.shortLabel}</span>
-                <span className="text-[0.55rem] sm:text-[0.6rem] leading-none mt-0.5 opacity-70">{seg.number}</span>
-              </button>
-            ))}
-          </div>
-        )}
+        <DaySelector segments={windSegments} selectedIdx={selectedWindDayIdx} onSelect={setSelectedWindDayIdx} />
         <div className="overflow-x-auto rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
           <table className="w-full text-left">
             <thead>
@@ -167,25 +150,7 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         </h3>
 
         {/* Day selector */}
-        {segments.length > 0 && (
-          <div className="mb-4 grid gap-1" style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}>
-            {segments.map((seg, idx) => (
-              <button
-                key={seg.key}
-                type="button"
-                onClick={() => setSelectedDayIdx(idx)}
-                className={`flex flex-col items-center justify-center rounded-md px-1 py-1.5 text-center font-extrabold uppercase transition-colors cursor-pointer ${
-                  idx === selectedDayIdx
-                    ? "bg-primary/20 text-primary"
-                    : "bg-[rgba(255,255,255,0.04)] text-muted-foreground hover:bg-[rgba(255,255,255,0.08)]"
-                }`}
-              >
-                <span className="text-[0.6rem] sm:text-xs leading-none">{seg.shortLabel}</span>
-                <span className="text-[0.55rem] sm:text-[0.6rem] leading-none mt-0.5 opacity-70">{seg.number}</span>
-              </button>
-            ))}
-          </div>
-        )}
+        <DaySelector segments={segments} selectedIdx={selectedDayIdx} onSelect={setSelectedDayIdx} />
 
         <div className="overflow-x-auto rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
           <table className="w-full text-left">

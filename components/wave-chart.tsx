@@ -12,6 +12,7 @@ import {
 } from "recharts"
 import { safeParseDate, formatNum, degToCompass } from "@/lib/surf-utils"
 import type { ChartDataPoint } from "@/lib/surf-utils"
+import { DaySelector } from "@/components/day-selector"
 
 interface WaveChartProps {
   data: ChartDataPoint[]
@@ -142,23 +143,7 @@ export function WaveChart({ data }: WaveChartProps) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
       {/* Day selector */}
-      <div className="mb-4 grid gap-1" style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}>
-        {segments.map((seg, idx) => (
-          <button
-            key={seg.key}
-            type="button"
-            onClick={() => setSelectedDayIdx(idx)}
-            className={`flex flex-col items-center justify-center rounded-md px-1 py-1.5 text-center font-extrabold uppercase transition-colors cursor-pointer ${
-              idx === selectedDayIdx
-                ? "bg-primary/20 text-primary"
-                : "bg-[rgba(255,255,255,0.04)] text-muted-foreground hover:bg-[rgba(255,255,255,0.08)]"
-            }`}
-          >
-            <span className="text-[0.6rem] sm:text-xs leading-none">{seg.shortLabel}</span>
-            <span className="text-[0.55rem] sm:text-[0.6rem] leading-none mt-0.5 opacity-70">{seg.number}</span>
-          </button>
-        ))}
-      </div>
+      <DaySelector segments={segments} selectedIdx={selectedDayIdx} onSelect={setSelectedDayIdx} />
 
       {/* Chart - shows only selected day */}
       <ResponsiveContainer width="100%" height={220}>
