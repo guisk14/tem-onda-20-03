@@ -136,17 +136,6 @@ export function WaveChart({ data }: WaveChartProps) {
         ))}
       </div>
 
-      {/* Active point metrics */}
-      {activePoint && (
-        <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
-          <MetricChip label="Altura" value={`${formatNum(activePoint.waveHeight, 1)}m`} color="text-primary" />
-          <MetricChip label="Periodo" value={`${formatNum(activePoint.wavePeriod, 1)}s`} color="text-chart-2" />
-          <MetricChip label="Dir. Onda" value={`${degToCompass(activePoint.waveDirDeg)} (${formatNum(activePoint.waveDirDeg, 0)}°)`} color="text-muted-foreground" />
-          <MetricChip label="Vento" value={`${Math.round(activePoint.windSpeed)} km/h`} color="text-chart-4" />
-          <MetricChip label="Dir. Vento" value={`${degToCompass(activePoint.windDirDeg)} (${formatNum(activePoint.windDirDeg, 0)}°)`} color="text-muted-foreground" />
-        </div>
-      )}
-
       {/* Chart */}
       <ResponsiveContainer width="100%" height={220}>
         <AreaChart data={chartData} onMouseMove={handleMouseMove}>
@@ -157,13 +146,7 @@ export function WaveChart({ data }: WaveChartProps) {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-          <XAxis
-            dataKey="label"
-            tick={{ fill: "#a1a1aa", fontSize: 10, fontWeight: 600 }}
-            axisLine={false}
-            tickLine={false}
-            interval="preserveStartEnd"
-          />
+          <XAxis dataKey="label" hide />
           <YAxis
             tick={{ fill: "#a1a1aa", fontSize: 10 }}
             axisLine={false}
@@ -182,6 +165,17 @@ export function WaveChart({ data }: WaveChartProps) {
           />
         </AreaChart>
       </ResponsiveContainer>
+
+      {/* Active point metrics */}
+      {activePoint && (
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <MetricChip label="Altura" value={`${formatNum(activePoint.waveHeight, 1)}m`} color="text-primary" />
+          <MetricChip label="Periodo" value={`${formatNum(activePoint.wavePeriod, 1)}s`} color="text-chart-2" />
+          <MetricChip label="Dir. Onda" value={`${degToCompass(activePoint.waveDirDeg)} (${formatNum(activePoint.waveDirDeg, 0)}°)`} color="text-muted-foreground" />
+          <MetricChip label="Vento" value={`${Math.round(activePoint.windSpeed)} km/h`} color="text-chart-4" />
+          <MetricChip label="Dir. Vento" value={`${degToCompass(activePoint.windDirDeg)} (${formatNum(activePoint.windDirDeg, 0)}°)`} color="text-muted-foreground" />
+        </div>
+      )}
     </div>
   )
 }
