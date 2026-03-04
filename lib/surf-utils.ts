@@ -180,10 +180,12 @@ export async function fetchForecast(beach: Beach): Promise<ForecastData> {
     })
   }
 
-  // Table data (same range as chart - all days)
+  // Table data (same range as chart - all days, every 3h)
   const endTable = Math.min(times.length, idxNow + 120)
   const tableData = []
-  for (let i = idxNow; i < endTable; i++) {
+  // Align start to next multiple of 3h
+  const startTable = idxNow + ((3 - (idxNow % 3)) % 3)
+  for (let i = startTable; i < endTable; i += 3) {
     const entra = swellEntraNaPraia(beach, dSwell[i])
     tableData.push({
       time: String(times[i]).slice(11, 16),
