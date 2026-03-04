@@ -138,8 +138,7 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                     Carregando...
                   </td>
                 </tr>
-              ) : (
-                data.windTableData.length === 0 ? (
+              ) : filteredWindData.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="px-4 py-6 text-center text-muted-foreground">
                     Sem dados
