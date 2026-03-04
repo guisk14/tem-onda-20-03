@@ -25,14 +25,13 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                 <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Dia</th>
                 <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
                 <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Direcao</th>
                 <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Tipo</th>
               </tr>
             </thead>
             <tbody>
               {loading || !data ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-muted-foreground">
+                  <td colSpan={4} className="px-4 py-6 text-center text-muted-foreground">
                     Carregando...
                   </td>
                 </tr>
@@ -41,8 +40,7 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                   <tr key={i} className="border-t border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.03)] transition-colors">
                     <td className="px-4 py-3 text-sm text-muted-foreground">{row.day}</td>
                     <td className="px-4 py-3 text-sm text-muted-foreground">{row.hour}</td>
-                    <td className="px-4 py-3 text-sm text-foreground font-semibold">{row.speed} km/h</td>
-                    <td className="px-4 py-3 text-sm text-muted-foreground">{row.direction}</td>
+                    <td className="px-4 py-3 text-sm text-foreground font-semibold">{row.speed} km/h {row.direction}</td>
                     <td className="px-4 py-3 text-sm font-extrabold" style={{ color: row.color }}>
                       {row.type} {row.intensity}
                     </td>
