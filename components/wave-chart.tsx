@@ -180,22 +180,52 @@ export function WaveChart({ data }: WaveChartProps) {
 
       {/* Active point metrics */}
       {activePoint && (
-        <div className="mt-4 grid grid-cols-4 gap-1.5 sm:gap-2">
-          <MetricChip label="Altura" value={`${formatNum(activePoint.waveHeight, 1)}m`} color="text-primary" />
-          <MetricChip label="Periodo" value={`${formatNum(activePoint.wavePeriod, 1)}s`} color="text-chart-2" />
-          <MetricChip label="Dir. Onda" value={degToCompass(activePoint.waveDirDeg)} color="text-muted-foreground" />
-          <MetricChip label="Vento" value={`${Math.round(activePoint.windSpeed)} km/h ${degToCompass(activePoint.windDirDeg)}`} color="text-chart-4" />
+        <div className="mt-5 grid grid-cols-4 gap-3">
+          <MetricChip label="Altura" value={formatNum(activePoint.waveHeight, 1)} unit="m" />
+          <MetricChip label="Periodo" value={formatNum(activePoint.wavePeriod, 1)} unit="s" />
+          <MetricChip label="Dir. Onda" value={degToCompass(activePoint.waveDirDeg)} />
+          <MetricChip label="Vento" value={`${Math.round(activePoint.windSpeed)}`} unit={`km/h`} subtitle={degToCompass(activePoint.windDirDeg)} />
         </div>
       )}
     </div>
   )
 }
 
-function MetricChip({ label, value, color }: { label: string; value: string; color: string }) {
+function MetricChip({ label, value, unit, subtitle }: { label: string; value: string; unit?: string; subtitle?: string }) {
   return (
-    <div className="rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-1.5 sm:px-3 py-2 text-center">
-      <p className={`text-[0.5rem] sm:text-[0.65rem] font-extrabold uppercase tracking-wide ${color}`}>{label}</p>
-      <p className="mt-1 text-sm sm:text-lg font-extrabold text-foreground leading-none">{value}</p>
+    <div
+      className="flex flex-col items-center justify-center text-center"
+      style={{
+        background: "#1E293B",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 14,
+        padding: "14px 8px",
+        minHeight: 70,
+        gap: 4,
+      }}
+    >
+      <span
+        style={{ fontSize: 11, color: "#94A3B8", letterSpacing: "0.08em" }}
+        className="font-semibold uppercase"
+      >
+        {label}
+      </span>
+      <span className="flex items-baseline gap-0.5">
+        <span
+          style={{ fontSize: 20, fontWeight: 600, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}
+          className="leading-none"
+        >
+          {value}
+        </span>
+        {unit && (
+          <span style={{ fontSize: 13, color: "#CBD5E1" }} className="leading-none">
+            {unit}
+          </span>
+        )}
+      </span>
+      {subtitle && (
+        <span style={{ fontSize: 11, color: "#94A3B8" }}>{subtitle}</span>
+      )}
     </div>
   )
 }
