@@ -149,7 +149,7 @@ function MetricCard({ icon, label, value, unit, subtitle, accentColor, glowBg }:
 export function ForecastCards({ data, loading }: ForecastCardsProps) {
   if (loading || !data) {
     return (
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-4 gap-2 sm:gap-3">
         <CardSkeleton />
         <CardSkeleton />
         <CardSkeleton />
@@ -162,7 +162,7 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
   const heightColors = getHeightColor(data.currentHeight)
 
   return (
-    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="grid grid-cols-4 gap-2 sm:gap-3">
       <MetricCard
         icon={<WaveIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
         label={CARD_THEMES.altura.label}
