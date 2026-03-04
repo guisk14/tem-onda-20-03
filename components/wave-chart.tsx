@@ -160,10 +160,10 @@ export function WaveChart({ data }: WaveChartProps) {
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
           <XAxis dataKey="label" hide />
           <YAxis
-            tick={{ fill: "#a1a1aa", fontSize: 10 }}
+            tick={{ fill: "#a1a1aa", fontSize: 8 }}
             axisLine={false}
             tickLine={false}
-            width={30}
+            width={20}
           />
           <Tooltip content={<CustomTooltip />} />
           <Area
