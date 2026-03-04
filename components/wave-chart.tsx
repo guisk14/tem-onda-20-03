@@ -46,6 +46,8 @@ function hourOnly(iso: string) {
 interface DaySegment {
   key: string
   label: string
+  shortLabel: string
+  number: string
   startIdx: number
   endIdx: number
 }
@@ -99,17 +101,25 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
 
 export function WaveChart({ data }: WaveChartProps) {
   const [activePoint, setActivePoint] = useState<ChartDataPoint | null>(null)
+  const [selectedDayIdx, setSelectedDayIdx] = useState(0)
 
   const segments = useMemo(() => computeDaySegments(data), [data])
 
+  // Filter data for the selected day only
+  const filteredData = useMemo(() => {
+    if (!segments.length) return []
+    const seg = segments[selectedDayIdx] ?? segments[0]
+    return data.slice(seg.startIdx, seg.endIdx + 1)
+  }, [data, segments, selectedDayIdx])
+
   const chartData = useMemo(
     () =>
-      data.map((d, i) => ({
+      filteredData.map((d, i) => ({
         ...d,
         index: i,
         label: hourOnly(d.time),
       })),
-    [data]
+    [filteredData]
   )
 
   const handleMouseMove = useCallback(
@@ -131,24 +141,26 @@ export function WaveChart({ data }: WaveChartProps) {
 
   return (
     <div className="rounded-xl border border-border bg-card p-5">
-      {/* Day header */}
+      {/* Day selector */}
       <div className="mb-4 grid gap-1" style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}>
         {segments.map((seg, idx) => (
-          <span
+          <button
             key={seg.key}
-            className={`flex flex-col items-center justify-center rounded-md px-1 py-1.5 text-center font-extrabold uppercase ${
-              idx === 0
+            type="button"
+            onClick={() => setSelectedDayIdx(idx)}
+            className={`flex flex-col items-center justify-center rounded-md px-1 py-1.5 text-center font-extrabold uppercase transition-colors cursor-pointer ${
+              idx === selectedDayIdx
                 ? "bg-primary/20 text-primary"
-                : "bg-[rgba(255,255,255,0.04)] text-muted-foreground"
+                : "bg-[rgba(255,255,255,0.04)] text-muted-foreground hover:bg-[rgba(255,255,255,0.08)]"
             }`}
           >
             <span className="text-[0.6rem] sm:text-xs leading-none">{seg.shortLabel}</span>
             <span className="text-[0.55rem] sm:text-[0.6rem] leading-none mt-0.5 opacity-70">{seg.number}</span>
-          </span>
+          </button>
         ))}
       </div>
 
-      {/* Chart */}
+      {/* Chart - shows only selected day */}
       <ResponsiveContainer width="100%" height={220}>
         <AreaChart data={chartData} onMouseMove={handleMouseMove}>
           <defs>
@@ -158,12 +170,18 @@ export function WaveChart({ data }: WaveChartProps) {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-          <XAxis dataKey="label" hide />
-          <YAxis
-            tick={{ fill: "#a1a1aa", fontSize: 6 }}
+          <XAxis
+            dataKey="label"
+            tick={{ fill: "#a1a1aa", fontSize: 10 }}
             axisLine={false}
             tickLine={false}
-            width={14}
+            interval="preserveStartEnd"
+          />
+          <YAxis
+            tick={{ fill: "#a1a1aa", fontSize: 10 }}
+            axisLine={false}
+            tickLine={false}
+            width={28}
           />
           <Tooltip content={<CustomTooltip />} />
           <Area
