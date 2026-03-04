@@ -88,3 +88,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes neon-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(56, 189, 248, 0.3), 0 0 12px rgba(56, 189, 248, 0.1); }
+  50% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.5), 0 0 20px rgba(56, 189, 248, 0.2); }
+}
+
+@keyframes neon-glow-line {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.neon-active {
+  animation: neon-pulse 2.5s ease-in-out infinite;
+}
+
+.neon-underline {
+  position: relative;
+}
+.neon-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  border-radius: 2px;
+  animation: neon-glow-line 2s ease-in-out infinite;
+}

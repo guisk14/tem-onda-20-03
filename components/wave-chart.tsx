@@ -119,16 +119,16 @@ export function WaveChart({ data }: WaveChartProps) {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="relative rounded-xl border border-[rgba(56,189,248,0.08)] bg-card p-5" style={{ boxShadow: "0 0 30px rgba(56,189,248,0.03), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
       {/* Day header */}
-      <div className="mb-4 grid gap-1" style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}>
+      <div className="mb-5 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}>
         {segments.map((seg, idx) => (
           <span
             key={seg.key}
-            className={`truncate rounded-md px-2 py-1.5 text-center text-[0.65rem] sm:text-xs font-extrabold uppercase ${
+            className={`truncate rounded-lg px-2 py-2 text-center text-[0.65rem] sm:text-xs font-extrabold uppercase tracking-wider transition-all duration-300 ${
               idx === 0
-                ? "bg-primary/20 text-primary"
-                : "bg-[rgba(255,255,255,0.04)] text-muted-foreground"
+                ? "neon-active neon-underline bg-primary/15 text-primary border border-primary/30"
+                : "bg-[rgba(255,255,255,0.03)] text-muted-foreground border border-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.06)] hover:text-foreground hover:border-[rgba(255,255,255,0.1)]"
             }`}
           >
             {seg.label}
@@ -141,9 +141,17 @@ export function WaveChart({ data }: WaveChartProps) {
         <AreaChart data={chartData} onMouseMove={handleMouseMove}>
           <defs>
             <linearGradient id="seaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.4} />
-              <stop offset="100%" stopColor="#38bdf8" stopOpacity={0} />
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.35} />
+              <stop offset="40%" stopColor="#0ea5e9" stopOpacity={0.15} />
+              <stop offset="100%" stopColor="#0c4a6e" stopOpacity={0} />
             </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
           <XAxis dataKey="label" hide />
@@ -158,10 +166,11 @@ export function WaveChart({ data }: WaveChartProps) {
             type="monotone"
             dataKey="waveHeight"
             stroke="#38bdf8"
-            strokeWidth={3}
+            strokeWidth={2.5}
             fill="url(#seaGradient)"
             dot={false}
-            activeDot={{ r: 5, fill: "#38bdf8", strokeWidth: 2, stroke: "#121214" }}
+            filter="url(#glow)"
+            activeDot={{ r: 6, fill: "#38bdf8", strokeWidth: 3, stroke: "#121214", filter: "url(#glow)" }}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -180,10 +189,23 @@ export function WaveChart({ data }: WaveChartProps) {
 }
 
 function MetricChip({ label, value, color }: { label: string; value: string; color: string }) {
+  const isActive = color === "text-primary"
   return (
-    <div className="rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] px-3 py-2 text-center">
-      <p className={`text-[0.65rem] font-extrabold uppercase tracking-wide ${color}`}>{label}</p>
-      <p className="mt-1 text-lg font-extrabold text-foreground leading-none">{value}</p>
+    <div
+      className={`group relative overflow-hidden rounded-xl px-3 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 ${
+        isActive
+          ? "neon-active bg-primary/10 border border-primary/25"
+          : "bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.04)]"
+      }`}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.08), transparent 70%)",
+        }}
+      />
+      <p className={`relative text-[0.6rem] sm:text-[0.65rem] font-extrabold uppercase tracking-widest ${color}`}>{label}</p>
+      <p className="relative mt-1.5 text-lg sm:text-xl font-extrabold text-foreground leading-none">{value}</p>
     </div>
   )
 }
