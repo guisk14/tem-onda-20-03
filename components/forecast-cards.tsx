@@ -124,13 +124,13 @@ function MetricCard({ icon, label, value, unit, subtitle, accentColor, glowBg }:
       {/* Value */}
       <div className="relative mt-0.5 sm:mt-2 flex items-baseline gap-0.5 sm:gap-1">
         <span
-          className="text-2xl sm:text-[2.6rem] font-bold leading-none text-foreground"
+          className="text-3xl sm:text-[3rem] font-extrabold leading-none text-foreground"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value}
         </span>
         {unit && (
-          <span className="text-sm sm:text-lg font-medium text-muted-foreground opacity-60">
+          <span className="text-base sm:text-xl font-semibold text-muted-foreground opacity-50">
             {unit}
           </span>
         )}
