@@ -8,8 +8,6 @@ interface WaveChartProps {
   data: ChartDataPoint[]
 }
 
-/* ── helpers ── */
-
 const DIAS_SEMANA = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"]
 
 function dayKey(iso: string) {
@@ -26,7 +24,6 @@ function hourOnly(iso: string) {
   return `${String(d.getHours()).padStart(2, "0")} horas`
 }
 
-/* group data points by day */
 interface DayGroup {
   key: string
   label: string
@@ -51,7 +48,6 @@ function groupByDay(data: ChartDataPoint[]): DayGroup[] {
   return groups
 }
 
-/* find the closest point to now */
 function findNowIndex(data: ChartDataPoint[]): number {
   const now = Date.now()
   let best = 0
@@ -63,21 +59,64 @@ function findNowIndex(data: ChartDataPoint[]): number {
   return best
 }
 
-/* ── SVG Wave Chart ── */
+/* ── smooth bezier helpers ── */
+
+function buildAreaPath(
+  points: { x: number; y: number }[],
+  baseY: number
+): string {
+  if (points.length < 2) return ""
+  let d = `M${points[0].x},${baseY}`
+  d += ` L${points[0].x},${points[0].y}`
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1]
+    const cur = points[i]
+    const cpx1 = prev.x + (cur.x - prev.x) * 0.4
+    const cpx2 = prev.x + (cur.x - prev.x) * 0.6
+    d += ` C${cpx1},${prev.y} ${cpx2},${cur.y} ${cur.x},${cur.y}`
+  }
+  d += ` L${points[points.length - 1].x},${baseY} Z`
+  return d
+}
+
+function buildLinePath(points: { x: number; y: number }[]): string {
+  if (points.length < 2) return ""
+  let d = `M${points[0].x},${points[0].y}`
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1]
+    const cur = points[i]
+    const cpx1 = prev.x + (cur.x - prev.x) * 0.4
+    const cpx2 = prev.x + (cur.x - prev.x) * 0.6
+    d += ` C${cpx1},${prev.y} ${cpx2},${cur.y} ${cur.x},${cur.y}`
+  }
+  return d
+}
+
+function interpY(points: { x: number; y: number }[], xPos: number): number {
+  if (!points.length) return 0
+  if (xPos <= points[0].x) return points[0].y
+  if (xPos >= points[points.length - 1].x) return points[points.length - 1].y
+  for (let i = 1; i < points.length; i++) {
+    if (xPos <= points[i].x) {
+      const t = (xPos - points[i - 1].x) / (points[i].x - points[i - 1].x)
+      return points[i - 1].y + t * (points[i].y - points[i - 1].y)
+    }
+  }
+  return points[points.length - 1].y
+}
 
 export function WaveChart({ data }: WaveChartProps) {
   const svgRef = useRef<SVGSVGElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [selectedDay, setSelectedDay] = useState<number | null>(null)
-  const [dimensions, setDimensions] = useState({ width: 800, height: 200 })
+  const [dims, setDims] = useState({ width: 800, height: 200 })
 
-  // Responsive sizing
   useEffect(() => {
     function update() {
       if (containerRef.current) {
         const w = containerRef.current.clientWidth
-        setDimensions({ width: w, height: Math.max(160, Math.min(220, w * 0.28)) })
+        setDims({ width: w, height: Math.max(160, Math.min(220, w * 0.28)) })
       }
     }
     update()
@@ -88,7 +127,6 @@ export function WaveChart({ data }: WaveChartProps) {
   const dayGroups = useMemo(() => groupByDay(data), [data])
   const nowIdx = useMemo(() => findNowIndex(data), [data])
 
-  // Set initial selected day to the day containing now
   useEffect(() => {
     if (dayGroups.length && selectedDay === null) {
       const idx = dayGroups.findIndex(g => nowIdx >= g.startIdx && nowIdx <= g.endIdx)
@@ -104,111 +142,75 @@ export function WaveChart({ data }: WaveChartProps) {
     return Math.max(m, 0.5)
   }, [data])
 
+  const maxWind = useMemo(() => {
+    let m = 0
+    for (const d of data) if (d.windSpeed > m) m = d.windSpeed
+    return Math.max(m, 5)
+  }, [data])
+
   const maxPeriod = useMemo(() => {
     let m = 0
     for (const d of data) if (d.wavePeriod > m) m = d.wavePeriod
     return Math.max(m, 5)
   }, [data])
 
-  const { width: W, height: H } = dimensions
-  const PADDING_TOP = 10
-  const PADDING_BOTTOM = 10
-  const chartH = H - PADDING_TOP - PADDING_BOTTOM
+  const { width: W, height: H } = dims
+  const PAD_T = 12
+  const PAD_B = 6
+  const chartH = H - PAD_T - PAD_B
+  const baseY = PAD_T + chartH
 
-  // Generate wave-like path (smooth area with "wave bumps")
-  const buildWavePath = useCallback((values: number[], maxVal: number, scale: number) => {
-    if (!values.length) return ""
-    const step = W / Math.max(values.length - 1, 1)
-    const points: [number, number][] = values.map((v, i) => [
-      i * step,
-      PADDING_TOP + chartH - (v / maxVal) * chartH * scale,
-    ])
+  const step = data.length > 1 ? W / (data.length - 1) : W
 
-    // Build smooth curve
-    let d = `M${points[0][0]},${points[0][1]}`
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1]
-      const cur = points[i]
-      const cpx1 = prev[0] + (cur[0] - prev[0]) * 0.4
-      const cpx2 = prev[0] + (cur[0] - prev[0]) * 0.6
-      d += ` C${cpx1},${prev[1]} ${cpx2},${cur[1]} ${cur[0]},${cur[1]}`
+  // Compute points for each series
+  const windPoints = useMemo(() => data.map((d, i) => ({
+    x: i * step,
+    y: baseY - (d.windSpeed / maxWind) * chartH * 0.65,
+  })), [data, step, baseY, maxWind, chartH])
+
+  const wavePoints = useMemo(() => data.map((d, i) => ({
+    x: i * step,
+    y: baseY - (d.waveHeight / maxWave) * chartH * 0.8,
+  })), [data, step, baseY, maxWave, chartH])
+
+  // Secondary wave layer (shifted/smoothed for depth effect)
+  const wavePoints2 = useMemo(() => data.map((d, i) => {
+    const next = data[Math.min(i + 2, data.length - 1)]
+    const avg = (d.waveHeight + next.waveHeight) / 2 * 0.85
+    return {
+      x: i * step,
+      y: baseY - (avg / maxWave) * chartH * 0.8,
     }
-    // Close the area
-    d += ` L${points[points.length - 1][0]},${PADDING_TOP + chartH} L${points[0][0]},${PADDING_TOP + chartH} Z`
-    return d
-  }, [W, chartH])
+  }), [data, step, baseY, maxWave, chartH])
 
-  // Generate smooth line (for period)
-  const buildLinePath = useCallback((values: number[], maxVal: number, scale: number) => {
-    if (!values.length) return ""
-    const step = W / Math.max(values.length - 1, 1)
-    const points: [number, number][] = values.map((v, i) => [
-      i * step,
-      PADDING_TOP + chartH - (v / maxVal) * chartH * scale,
-    ])
+  const periodPoints = useMemo(() => data.map((d, i) => ({
+    x: i * step,
+    y: PAD_T + chartH * 0.15 - (d.wavePeriod / maxPeriod) * chartH * 0.55 + chartH * 0.45,
+  })), [data, step, maxPeriod, chartH])
 
-    let d = `M${points[0][0]},${points[0][1]}`
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1]
-      const cur = points[i]
-      const cpx1 = prev[0] + (cur[0] - prev[0]) * 0.4
-      const cpx2 = prev[0] + (cur[0] - prev[0]) * 0.6
-      d += ` C${cpx1},${prev[1]} ${cpx2},${cur[1]} ${cur[0]},${cur[1]}`
-    }
-    return d
-  }, [W, chartH])
+  // SVG paths
+  const windAreaPath = useMemo(() => buildAreaPath(windPoints, baseY), [windPoints, baseY])
+  const waveAreaPath2 = useMemo(() => buildAreaPath(wavePoints2, baseY), [wavePoints2, baseY])
+  const waveAreaPath = useMemo(() => buildAreaPath(wavePoints, baseY), [wavePoints, baseY])
+  const periodLinePath = useMemo(() => buildLinePath(periodPoints), [periodPoints])
 
-  const waveValues = useMemo(() => data.map(d => d.waveHeight), [data])
-  const periodValues = useMemo(() => data.map(d => d.wavePeriod), [data])
-
-  // Two wave layers with different opacity
-  const wavePathMain = useMemo(() => buildWavePath(waveValues, maxWave, 0.85), [buildWavePath, waveValues, maxWave])
-  const wavePathSecondary = useMemo(() => {
-    // Slightly offset values for secondary wave layer effect
-    const shifted = waveValues.map((v, i) => {
-      const next = waveValues[Math.min(i + 2, waveValues.length - 1)]
-      return (v + next) / 2 * 0.9
-    })
-    return buildWavePath(shifted, maxWave, 0.85)
-  }, [buildWavePath, waveValues, maxWave])
-
-  const periodLine = useMemo(() => buildLinePath(periodValues, maxPeriod, 0.7), [buildLinePath, periodValues, maxPeriod])
-
-  // x position for now marker
-  const step = W / Math.max(data.length - 1, 1)
   const nowX = nowIdx * step
-
-  // Day boundary x positions
-  const dayBoundaryXs = useMemo(() => {
-    return dayGroups.map(g => ({
-      x: g.startIdx * step,
-      xEnd: (g.endIdx + 1) * step,
-      label: g.label,
-    }))
-  }, [dayGroups, step])
-
-  // Active point x position
   const activeX = activeIdx * step
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
+  const handlePointer = useCallback((clientX: number) => {
     if (!svgRef.current || !data.length) return
     const rect = svgRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const idx = Math.round((x / W) * (data.length - 1))
+    const x = clientX - rect.left
+    const idx = Math.round((x / rect.width) * (data.length - 1))
     setHoveredIdx(Math.max(0, Math.min(data.length - 1, idx)))
-  }, [data.length, W])
+  }, [data.length])
 
-  const handleMouseLeave = useCallback(() => {
-    setHoveredIdx(null)
-  }, [])
-
-  const handleTouchMove = useCallback((e: React.TouchEvent<SVGSVGElement>) => {
-    if (!svgRef.current || !data.length) return
-    const rect = svgRef.current.getBoundingClientRect()
-    const x = e.touches[0].clientX - rect.left
-    const idx = Math.round((x / W) * (data.length - 1))
-    setHoveredIdx(Math.max(0, Math.min(data.length - 1, idx)))
-  }, [data.length, W])
+  const onMouseMove = useCallback((e: React.MouseEvent) => handlePointer(e.clientX), [handlePointer])
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    e.preventDefault()
+    handlePointer(e.touches[0].clientX)
+  }, [handlePointer])
+  const onPointerLeave = useCallback(() => setHoveredIdx(null), [])
 
   if (!data.length) {
     return (
@@ -222,7 +224,7 @@ export function WaveChart({ data }: WaveChartProps) {
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
-      {/* Day tabs header */}
+      {/* Day tabs */}
       <div className="flex border-b border-border overflow-x-auto">
         {dayGroups.map((g, i) => {
           const isToday = nowIdx >= g.startIdx && nowIdx <= g.endIdx
@@ -245,77 +247,56 @@ export function WaveChart({ data }: WaveChartProps) {
         })}
       </div>
 
-      {/* Selected day + hour label */}
+      {/* Day + hour label */}
       <div className="px-4 pt-3 pb-1">
         <p className="text-sm text-muted-foreground">
           {point ? `${dayLabel(point.time)} - ${hourOnly(point.time)}` : ""}
         </p>
       </div>
 
-      {/* Chart area */}
-      <div ref={containerRef} className="px-2 pb-2">
+      {/* SVG chart */}
+      <div ref={containerRef} className="px-2 pb-1 touch-none">
         <svg
           ref={svgRef}
           width={W}
           height={H}
           viewBox={`0 0 ${W} ${H}`}
-          className="w-full cursor-crosshair"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleMouseLeave}
+          className="w-full cursor-crosshair select-none"
+          onMouseMove={onMouseMove}
+          onMouseLeave={onPointerLeave}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onPointerLeave}
           preserveAspectRatio="none"
         >
-          {/* Background wave area - lighter blue */}
-          <path
-            d={wavePathSecondary}
-            fill="#7ec8e3"
-            opacity={0.5}
-          />
+          {/* Wind area - gray */}
+          <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-          {/* Main wave area - darker blue */}
-          <path
-            d={wavePathMain}
-            fill="#3b9fc9"
-            opacity={0.7}
-          />
+          {/* Secondary wave layer - light blue */}
+          <path d={waveAreaPath2} fill="#7ec8e3" opacity={0.55} />
+
+          {/* Main wave layer - blue */}
+          <path d={waveAreaPath} fill="#38a3c9" opacity={0.75} />
 
           {/* Period line - red */}
-          <path
-            d={periodLine}
-            fill="none"
-            stroke="#dc2626"
-            strokeWidth={2}
-            opacity={0.85}
-          />
+          <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.9} />
 
-          {/* Day boundary separator lines */}
-          {dayGroups.slice(1).map(g => {
-            const x = g.startIdx * step
-            return (
-              <line
-                key={g.key}
-                x1={x}
-                y1={0}
-                x2={x}
-                y2={H}
-                stroke="rgba(255,255,255,0.12)"
-                strokeWidth={1}
-              />
-            )
-          })}
+          {/* Day separator lines */}
+          {dayGroups.slice(1).map((g, i) => (
+            <line
+              key={`sep-${i}`}
+              x1={g.startIdx * step}
+              y1={0}
+              x2={g.startIdx * step}
+              y2={H}
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth={1}
+            />
+          ))}
 
-          {/* Now marker - vertical red line */}
-          <line
-            x1={nowX}
-            y1={0}
-            x2={nowX}
-            y2={H}
-            stroke="#dc2626"
-            strokeWidth={2}
-          />
+          {/* Now marker - solid red vertical line */}
+          <line x1={nowX} y1={0} x2={nowX} y2={H} stroke="#dc2626" strokeWidth={2} />
 
-          {/* Hover/active indicator */}
+          {/* Interactive hover line */}
           {hoveredIdx !== null && (
             <>
               <line
@@ -323,23 +304,34 @@ export function WaveChart({ data }: WaveChartProps) {
                 y1={0}
                 x2={activeX}
                 y2={H}
-                stroke="rgba(255,255,255,0.3)"
-                strokeWidth={1}
-                strokeDasharray="4 3"
+                stroke="#dc2626"
+                strokeWidth={1.5}
+                opacity={0.7}
               />
+              {/* Wave dot */}
               <circle
                 cx={activeX}
-                cy={PADDING_TOP + chartH - (data[activeIdx].waveHeight / maxWave) * chartH * 0.85}
+                cy={interpY(wavePoints, activeX)}
                 r={4}
-                fill="#3b9fc9"
+                fill="#38a3c9"
                 stroke="#fff"
                 strokeWidth={2}
               />
+              {/* Period dot */}
               <circle
                 cx={activeX}
-                cy={PADDING_TOP + chartH - (data[activeIdx].wavePeriod / maxPeriod) * chartH * 0.7}
+                cy={interpY(periodPoints, activeX)}
                 r={3}
                 fill="#dc2626"
+                stroke="#fff"
+                strokeWidth={1.5}
+              />
+              {/* Wind dot */}
+              <circle
+                cx={activeX}
+                cy={interpY(windPoints, activeX)}
+                r={3}
+                fill="#9ca3af"
                 stroke="#fff"
                 strokeWidth={1.5}
               />
@@ -348,7 +340,23 @@ export function WaveChart({ data }: WaveChartProps) {
         </svg>
       </div>
 
-      {/* Bottom metrics bar */}
+      {/* Legend */}
+      <div className="flex items-center justify-center gap-4 px-4 pb-2">
+        <div className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#38a3c9" }} />
+          <span className="text-[10px] text-muted-foreground">Altura</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
+          <span className="text-[10px] text-muted-foreground">Vento</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-0.5 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
+          <span className="text-[10px] text-muted-foreground">Periodo</span>
+        </div>
+      </div>
+
+      {/* Bottom metrics */}
       <div className="flex items-center justify-between border-t border-border px-2 py-3 gap-1">
         <MetricItem
           label="ALTURA SIGNIFICATIVA"
