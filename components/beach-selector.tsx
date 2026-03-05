@@ -27,11 +27,11 @@ export function BeachSelector({
           Selecionar Pico
         </h2>
       </div>
-      <div className="flex gap-3">
+      <div className="flex flex-col gap-2 md:flex-row md:gap-3">
         <select
           value={selectedCityId}
           onChange={(e) => onCityChange(e.target.value)}
-          className="flex-1 rounded-lg border border-border bg-secondary px-3 py-2.5 text-sm font-semibold text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary cursor-pointer"
+          className="w-full md:flex-1 rounded-lg border border-border bg-secondary px-3 py-2.5 text-sm font-semibold text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary cursor-pointer"
         >
           {BEACH_DATA.map((city) => (
             <option key={city.cityId} value={city.cityId}>
@@ -42,7 +42,7 @@ export function BeachSelector({
         <select
           value={selectedBeachId}
           onChange={(e) => onBeachChange(e.target.value)}
-          className="flex-1 rounded-lg border border-border bg-secondary px-3 py-2.5 text-sm font-semibold text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary cursor-pointer"
+          className="w-full md:flex-1 rounded-lg border border-border bg-secondary px-3 py-2.5 text-sm font-semibold text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary cursor-pointer"
         >
           {selectedCity.beaches.map((beach) => (
             <option key={beach.id} value={beach.id}>
