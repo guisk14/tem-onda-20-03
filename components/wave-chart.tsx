@@ -119,6 +119,16 @@ export function WaveChart({ data }: WaveChartProps) {
     [dayBoundaries, data]
   )
 
+  // Compute end index for each day boundary
+  const dayRanges = useMemo(() => {
+    return dayBoundaries.map((b, idx) => {
+      const endIdx = idx < dayBoundaries.length - 1
+        ? dayBoundaries[idx + 1].index - 1
+        : chartData.length - 1
+      return { ...b, endIdx }
+    })
+  }, [dayBoundaries, chartData.length])
+
   const handleMouseMove = useCallback(
     (state: { activePayload?: Array<{ payload: ChartDataPoint }> }) => {
       if (state?.activePayload?.length) {
@@ -135,16 +145,6 @@ export function WaveChart({ data }: WaveChartProps) {
       </div>
     )
   }
-
-  // Compute end index for each day boundary
-  const dayRanges = useMemo(() => {
-    return dayBoundaries.map((b, idx) => {
-      const endIdx = idx < dayBoundaries.length - 1
-        ? dayBoundaries[idx + 1].index - 1
-        : chartData.length - 1
-      return { ...b, endIdx }
-    })
-  }, [dayBoundaries, chartData.length])
 
   return (
     <div className="rounded-xl border border-border bg-card p-5">
