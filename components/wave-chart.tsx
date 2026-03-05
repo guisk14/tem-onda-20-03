@@ -168,12 +168,7 @@ export function WaveChart({ data }: WaveChartProps) {
     y: baseY - (d.windSpeed / maxWind) * chartH * 0.65,
   })), [data, step, baseY, maxWind, chartH])
 
-  const wavePoints = useMemo(() => data.map((d, i) => ({
-    x: i * step,
-    y: baseY - (d.waveHeight / maxWave) * chartH * 0.8,
-  })), [data, step, baseY, maxWave, chartH])
-
-  // Secondary wave layer (shifted/smoothed for depth effect)
+  // Wave layer (smoothed for depth effect)
   const wavePoints2 = useMemo(() => data.map((d, i) => {
     const next = data[Math.min(i + 2, data.length - 1)]
     const avg = (d.waveHeight + next.waveHeight) / 2 * 0.85
@@ -191,7 +186,6 @@ export function WaveChart({ data }: WaveChartProps) {
   // SVG paths
   const windAreaPath = useMemo(() => buildAreaPath(windPoints, baseY), [windPoints, baseY])
   const waveAreaPath2 = useMemo(() => buildAreaPath(wavePoints2, baseY), [wavePoints2, baseY])
-  const waveAreaPath = useMemo(() => buildAreaPath(wavePoints, baseY), [wavePoints, baseY])
   const periodLinePath = useMemo(() => buildLinePath(periodPoints), [periodPoints])
 
   const nowX = nowIdx * step
@@ -271,11 +265,8 @@ export function WaveChart({ data }: WaveChartProps) {
           {/* Wind area - gray */}
           <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-          {/* Secondary wave layer - light blue */}
-          <path d={waveAreaPath2} fill="#7ec8e3" opacity={0.55} />
-
-          {/* Main wave layer - blue */}
-          <path d={waveAreaPath} fill="#38a3c9" opacity={0.75} />
+          {/* Wave layer - light blue */}
+          <path d={waveAreaPath2} fill="#5bb8d4" opacity={0.7} />
 
           {/* Period line - red */}
           <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.9} />
@@ -311,9 +302,9 @@ export function WaveChart({ data }: WaveChartProps) {
               {/* Wave dot */}
               <circle
                 cx={activeX}
-                cy={interpY(wavePoints, activeX)}
+                cy={interpY(wavePoints2, activeX)}
                 r={4}
-                fill="#38a3c9"
+                fill="#5bb8d4"
                 stroke="#fff"
                 strokeWidth={2}
               />
@@ -343,7 +334,7 @@ export function WaveChart({ data }: WaveChartProps) {
       {/* Legend */}
       <div className="flex items-center justify-center gap-4 px-4 pb-2">
         <div className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#38a3c9" }} />
+          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
           <span className="text-[10px] text-muted-foreground">Altura</span>
         </div>
         <div className="flex items-center gap-1.5">
