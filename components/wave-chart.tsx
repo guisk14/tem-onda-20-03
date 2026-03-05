@@ -174,21 +174,8 @@ export function WaveChart({ data }: WaveChartProps) {
               strokeDasharray="3 3"
             />
           ))}
-          <XAxis
-            dataKey="index"
-            tickFormatter={xTickFormatter}
-            tick={{ fill: "#a1a1aa", fontSize: 9 }}
-            axisLine={false}
-            tickLine={false}
-            interval={5}
-          />
-          <YAxis
-            tick={{ fill: "#a1a1aa", fontSize: 10 }}
-            axisLine={false}
-            tickLine={false}
-            width={28}
-            unit="m"
-          />
+          <XAxis dataKey="index" hide />
+          <YAxis hide />
           <Tooltip content={<CustomTooltip />} />
           <Area
             type="monotone"
