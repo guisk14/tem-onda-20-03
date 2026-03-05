@@ -227,7 +227,7 @@ export function WaveChart({ data }: WaveChartProps) {
             <button
               key={g.key}
               onClick={() => setSelectedDay(i)}
-              className={`flex-1 min-w-0 px-2 py-2.5 text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
+              className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
                 isSelected
                   ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
                   : isToday
@@ -332,18 +332,18 @@ export function WaveChart({ data }: WaveChartProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-4 px-4 pb-2">
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
-          <span className="text-[10px] text-muted-foreground">Altura</span>
+      <div className="flex items-center justify-center gap-2 px-2 pb-1 md:gap-4 md:px-4 md:pb-2">
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Altura</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
-          <span className="text-[10px] text-muted-foreground">Vento</span>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Vento</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-0.5 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
-          <span className="text-[10px] text-muted-foreground">Periodo</span>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-0.5 md:w-3 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Periodo</span>
         </div>
       </div>
 
