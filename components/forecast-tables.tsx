@@ -105,34 +105,34 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
 
         {/* Wind Day selector */}
         <DaySelector segments={windSegments} selectedIdx={selectedWindDayIdx} onSelect={setSelectedWindDayIdx} />
-        <div className="overflow-x-auto rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
-          <table className="w-full text-left">
+        <div className="mx-auto max-w-md rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
+          <table className="w-full text-center">
             <thead>
               <tr>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Tipo</th>
+                <th className="px-2 py-2 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
+                <th className="px-2 py-2 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
+                <th className="px-2 py-2 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Tipo</th>
               </tr>
             </thead>
             <tbody>
               {loading || !data ? (
                 <tr>
-                  <td colSpan={3} className="px-4 py-6 text-center text-muted-foreground">
+                  <td colSpan={3} className="px-2 py-4 text-center text-muted-foreground">
                     Carregando...
                   </td>
                 </tr>
               ) : filteredWindData.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-4 py-6 text-center text-muted-foreground">
+                  <td colSpan={3} className="px-2 py-4 text-center text-muted-foreground">
                     Sem dados
                   </td>
                 </tr>
               ) : (
                 filteredWindData.map((row, i) => (
                   <tr key={i} className="border-t border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.03)] transition-colors">
-                    <td className="px-4 py-3 text-sm text-muted-foreground">{row.hour}</td>
-                    <td className="px-4 py-3 text-sm text-foreground font-semibold">{row.speed} km/h {row.direction}</td>
-                    <td className="px-4 py-3 text-sm font-extrabold" style={{ color: row.color }}>
+                    <td className="px-2 py-2 text-xs text-muted-foreground">{row.hour}</td>
+                    <td className="px-2 py-2 text-xs text-foreground font-semibold">{row.speed} km/h {row.direction}</td>
+                    <td className="px-2 py-2 text-xs font-extrabold" style={{ color: row.color }}>
                       {row.type} {row.intensity}
                     </td>
                   </tr>
