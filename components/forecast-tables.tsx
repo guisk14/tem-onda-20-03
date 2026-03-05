@@ -152,35 +152,35 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         {/* Day selector */}
         <DaySelector segments={segments} selectedIdx={selectedDayIdx} onSelect={setSelectedDayIdx} />
 
-        <div className="overflow-x-auto rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
-          <table className="w-full text-left">
+        <div className="rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)] md:overflow-x-auto">
+          <table className="w-full text-center md:text-left">
             <thead>
               <tr>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Altura (m)</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Periodo (s)</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Direcao</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Altura</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Periodo</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Dir.</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
               </tr>
             </thead>
             <tbody>
               {loading || !data ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-muted-foreground">
+                  <td colSpan={5} className="px-2 py-4 md:px-4 md:py-6 text-center text-muted-foreground">
                     Carregando...
                   </td>
                 </tr>
               ) : (
                 filteredTableData.map((row, i) => (
                   <tr key={i} className="border-t border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.03)] transition-colors">
-                    <td className="px-4 py-3 text-sm text-foreground">{row.time}</td>
-                    <td className="px-4 py-3 text-sm font-bold text-primary">{formatNum(row.height, 1)}</td>
-                    <td className="px-4 py-3 text-sm text-foreground">{formatNum(row.period, 1)}</td>
-                    <td className="px-4 py-3 text-sm text-foreground">
-                      {formatNum(row.direction, 0)}° {degToCompass(row.direction)}
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{row.time}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-primary">{formatNum(row.height, 1)}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{formatNum(row.period, 1)}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                      <span className="hidden md:inline">{formatNum(row.direction, 0)}° </span>{degToCompass(row.direction)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-foreground">
-                      {Math.round(row.windSpeed)} km/h {degToCompass(row.windDirDeg)}
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                      {Math.round(row.windSpeed)}<span className="hidden md:inline"> km/h</span> {degToCompass(row.windDirDeg)}
                     </td>
                   </tr>
                 ))
