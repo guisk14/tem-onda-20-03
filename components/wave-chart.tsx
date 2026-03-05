@@ -350,12 +350,12 @@ export function WaveChart({ data }: WaveChartProps) {
       {/* Bottom metrics */}
       <div className="flex items-center justify-between border-t border-border px-2 py-3 gap-1">
         <MetricItem
-          label="ALTURA SIGNIFICATIVA"
+          label="ALTURA"
           value={`${formatNum(point?.waveHeight, 1)} m`}
           color="text-sky-400"
         />
         <MetricItem
-          label="PERIODO DE PICO"
+          label="PERIODO"
           value={`${formatNum(point?.wavePeriod, 1)} s`}
           color="text-red-400"
         />
@@ -368,14 +368,7 @@ export function WaveChart({ data }: WaveChartProps) {
         />
         <MetricItem
           label="VENTO"
-          value={`${Math.round(point?.windSpeed ?? 0)} km/h`}
-          color="text-muted-foreground"
-          showArrow
-          arrowDeg={point?.windDirDeg}
-        />
-        <MetricItem
-          label="DIRECAO"
-          value={degToCompass(point?.windDirDeg)}
+          value={`${Math.round(point?.windSpeed ?? 0)} km/h ${degToCompass(point?.windDirDeg)}`}
           color="text-muted-foreground"
           showArrow
           arrowDeg={point?.windDirDeg}
