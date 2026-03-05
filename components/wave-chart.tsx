@@ -87,13 +87,14 @@ export function WaveChart({ data }: WaveChartProps) {
     [data]
   )
 
-  // Find day boundaries for reference lines and header
+  // Find day boundaries for reference lines and header (max 5 days)
   const dayBoundaries = useMemo(() => {
     const boundaries: DayBoundary[] = []
     if (!data.length) return boundaries
     let curKey = dayKey(data[0].time)
     boundaries.push({ index: 0, label: `${dayLabelShort(data[0].time)} ${dayNumber(data[0].time)}` })
     for (let i = 1; i < data.length; i++) {
+      if (boundaries.length >= 5) break
       const k = dayKey(data[i].time)
       if (k !== curKey) {
         boundaries.push({ index: i, label: `${dayLabelShort(data[i].time)} ${dayNumber(data[i].time)}` })
