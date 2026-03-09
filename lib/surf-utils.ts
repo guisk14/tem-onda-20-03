@@ -192,11 +192,11 @@ export async function fetchForecast(beach: Beach): Promise<ForecastData> {
     })
   }
 
-  // Table data (same range as chart - all days, every 3h)
-  const endTable = Math.min(times.length, idxNow + 120)
+  // Table data (same range as chart - all days, every 3h, starting from today 00:00)
+  const endTable = Math.min(times.length, idxMidnight + 120)
   const tableData = []
-  // Align start to next multiple of 3h
-  const startTable = idxNow + ((3 - (idxNow % 3)) % 3)
+  // Align start to next multiple of 3h from midnight
+  const startTable = idxMidnight + ((3 - (idxMidnight % 3)) % 3)
   for (let i = startTable; i < endTable; i += 3) {
     const entra = swellEntraNaPraia(beach, dSwell[i])
     tableData.push({
@@ -210,10 +210,10 @@ export async function fetchForecast(beach: Beach): Promise<ForecastData> {
     })
   }
 
-  // Wind table data (all days, every 3h - same range as chart)
+  // Wind table data (all days, every 3h - same range as chart, starting from today 00:00)
   const windTableData: ForecastData["windTableData"] = []
-  const windStartTable = idxNow + ((3 - (idxNow % 3)) % 3)
-  const endWind = Math.min(weather.hourly.time.length, idxNow + 120)
+  const windStartTable = idxMidnight + ((3 - (idxMidnight % 3)) % 3)
+  const endWind = Math.min(weather.hourly.time.length, idxMidnight + 120)
   for (let i = windStartTable; i < endWind; i += 3) {
     const d = safeParseDate(weather.hourly.time[i])
     const day = d.toLocaleDateString("pt-BR", { weekday: "short" })
