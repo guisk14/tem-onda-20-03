@@ -198,13 +198,13 @@ export async function fetchForecast(beach: Beach): Promise<ForecastData> {
   // Align start to next multiple of 3h from midnight
   const startTable = idxMidnight + ((3 - (idxMidnight % 3)) % 3)
   for (let i = startTable; i < endTable; i += 3) {
-    const entra = swellEntraNaPraia(beach, dSwell[i])
+    const entra = swellEntraNaPraia(beach, dWave[i])
     tableData.push({
       time: String(times[i]).slice(11, 16),
       timeISO: times[i],
-      height: entra ? (hSwell[i] ?? 0) * factor : 0,
-      period: pSwell[i],
-      direction: dSwell[i],
+      height: entra ? hWave[i] * factor : 0,
+      period: pWave[i],
+      direction: dWave[i],
       windSpeed: windS[i] ?? 0,
       windDirDeg: windD[i] ?? 0,
     })
