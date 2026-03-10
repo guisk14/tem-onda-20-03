@@ -253,10 +253,10 @@ export function TideTable({ lat }: TideTableProps) {
           </h3>
           {nextTide && (
             <div className="flex flex-col items-center">
-              <p className="text-[7px] font-medium uppercase tracking-wide text-muted-foreground/70">
+              <p className="text-[10px] font-normal uppercase tracking-[0.08em] text-muted-foreground/65">
                 Próxima Maré
               </p>
-              <p className="text-sm font-bold mt-0.5">
+              <p className="text-base font-bold mt-[2px]">
                 <span className={nextTide.type === "alta" ? "text-sky-400" : "text-teal-400"}>
                   {nextTide.type === "alta" ? "Cheia" : "Seca"} em
                 </span>
@@ -274,7 +274,7 @@ export function TideTable({ lat }: TideTableProps) {
                 }
               `}</style>
               <div className="mt-2">
-                <div className="relative h-[4px] w-[120px] bg-muted-foreground/20 rounded-full">
+                <div className="relative h-[4px] w-[150px] bg-muted-foreground/20 rounded-full">
                   {(() => {
                     const prevTideIndex = tides.findIndex(t => t === nextTide) - 1
                     const prevTide = prevTideIndex >= 0 ? tides[prevTideIndex] : { ...tides[tides.length - 1], hour: tides[tides.length - 1].hour - 24 }
@@ -306,8 +306,8 @@ export function TideTable({ lat }: TideTableProps) {
                           style={{ 
                             left: `calc(${progress}% - 6px)`,
                             boxShadow: tideColor === "sky" 
-                              ? '0 0 8px rgba(56,189,248,0.6)' 
-                              : '0 0 8px rgba(45,212,191,0.6)'
+                              ? '0 0 6px rgba(56,189,248,0.6), 0 0 14px rgba(56,189,248,0.3)' 
+                              : '0 0 6px rgba(45,212,191,0.6), 0 0 14px rgba(45,212,191,0.3)'
                           }}
                         />
                       </>
