@@ -177,16 +177,16 @@ export function TideTable({ lat }: TideTableProps) {
             Mares
           </p>
           <h3 className="text-sm md:text-lg font-bold text-foreground">
-            Tabela de Mares de Hoje
+            Tabela de Marés de Hoje
           </h3>
         </div>
         {nextTide && (
           <div className="text-right min-w-[140px]">
             <p className="text-[9px] md:text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Proxima
+              Próxima
             </p>
             <p className="text-xs md:text-sm font-bold text-foreground">
-              {nextTide.type === "alta" ? "Mare Alta" : "Mare Baixa"} em {countdown.hours}h {countdown.minutes}m
+              {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em {countdown.hours}h {countdown.minutes}m
             </p>
             {/* Progress line */}
             <div className="mt-2 flex items-center gap-1">
@@ -356,7 +356,7 @@ export function TideTable({ lat }: TideTableProps) {
             >
               {mounted && !isPast && tide === nextTide && (
                 <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-primary text-[7px] md:text-[8px] font-bold uppercase tracking-wider text-primary-foreground">
-                  Proxima
+                  Próxima
                 </div>
               )}
               <div
@@ -375,7 +375,7 @@ export function TideTable({ lat }: TideTableProps) {
               <span className={`text-[9px] md:text-[11px] font-bold uppercase tracking-wide ${
                 isHigh ? "text-sky-400/80" : "text-teal-400/80"
               }`}>
-                {isHigh ? "Mare Alta" : "Mare Baixa"}
+                {isHigh ? "Maré Alta" : "Maré Baixa"}
               </span>
               <span className="text-base md:text-xl font-black text-foreground leading-none">
                 {tide.time}
