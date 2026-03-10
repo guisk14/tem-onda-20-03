@@ -379,7 +379,7 @@ export function TideTable({ lat }: TideTableProps) {
         {/* Hour labels fora do SVG para nao distorcer */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-between px-[2.5%] pb-0.5">
           {[0, 6, 12, 18, 24].map(h => (
-            <span key={h} className="text-[9px] md:text-[10px] text-muted-foreground/40">
+            <span key={h} className="text-[7px] md:text-[10px] text-muted-foreground/40">
               {h === 24 ? "00" : String(h).padStart(2, "0")}h
             </span>
           ))}
