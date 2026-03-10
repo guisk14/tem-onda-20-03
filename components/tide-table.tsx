@@ -187,10 +187,10 @@ export function TideTable({ lat }: TideTableProps) {
             </p>
             <p className="text-xs md:text-sm font-bold">
               <span className={nextTide.type === "alta" ? "text-sky-400" : "text-teal-400"}>
-                {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"}
+                {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em:
               </span>
               <span className="text-foreground">
-                {" "}em: {countdown.hours > 0 ? `${countdown.hours}h ${countdown.minutes}m` : `${countdown.minutes}m`}
+                {" "}{countdown.hours > 0 ? `${countdown.hours}h ${countdown.minutes}m` : `${countdown.minutes}m`}
               </span>
             </p>
             {/* Progress line */}
