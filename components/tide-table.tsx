@@ -219,22 +219,38 @@ export function TideTable({ lat }: TideTableProps) {
 
       {/* Mini tide curve */}
       <div className="relative mb-4 rounded-lg overflow-hidden bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
+        <style>{`
+          @keyframes pulse {
+            0% { opacity: 0.4 }
+            50% { opacity: 1 }
+            100% { opacity: 0.4 }
+          }
+          .now-line {
+            animation: pulse 2s infinite;
+          }
+        `}</style>
         <svg
           viewBox={`0 0 ${svgW} ${svgH}`}
           className="w-full h-14 md:h-16"
           preserveAspectRatio="none"
         >
           <defs>
+            {/* Gradiente mais forte para sensacao de profundidade de agua */}
             <linearGradient id="tideFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.35" />
               <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.02" />
+            </linearGradient>
+            {/* Gradiente para trecho ativo (agora -> proxima mare) */}
+            <linearGradient id="activeSegment" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="1" />
+              <stop offset="100%" stopColor="#2dd4bf" stopOpacity="1" />
             </linearGradient>
           </defs>
 
           {/* Fill */}
           <path d={areaPath} fill="url(#tideFill)" />
 
-          {/* Curve line */}
+          {/* Curve line - mais fraca */}
           <path
             d={linePath}
             fill="none"
@@ -242,7 +258,28 @@ export function TideTable({ lat }: TideTableProps) {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeOpacity="0.4"
           />
+
+          {/* Highlighted segment: agora -> proxima mare */}
+          {nextTide && (() => {
+            const activePoints = curve
+              .filter(p => p.x >= currentHour && p.x <= nextTide.hour)
+              .map(p => `${toSvgX(p.x)},${toSvgY(p.y)}`)
+            if (activePoints.length < 2) return null
+            const activePath = `M${activePoints.join(" L")}`
+            return (
+              <path
+                d={activePath}
+                fill="none"
+                stroke="url(#activeSegment)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                filter="drop-shadow(0 0 3px rgba(56,189,248,0.5))"
+              />
+            )
+          })()}
 
           {/* Hour markers */}
           {[0, 6, 12, 18, 24].map(h => (
@@ -280,7 +317,7 @@ export function TideTable({ lat }: TideTableProps) {
             />
           ))}
 
-          {/* Current time indicator */}
+          {/* Current time indicator com animacao pulse */}
           <line
             x1={nowX}
             y1={pad}
@@ -289,6 +326,7 @@ export function TideTable({ lat }: TideTableProps) {
             stroke="#f43f5e"
             strokeWidth="1"
             strokeDasharray="2 2"
+            className="now-line"
           />
           <circle
             cx={nowX}
@@ -297,6 +335,7 @@ export function TideTable({ lat }: TideTableProps) {
             fill="#f43f5e"
             stroke="#121214"
             strokeWidth="1.5"
+            className="now-line"
           />
         </svg>
       </div>
