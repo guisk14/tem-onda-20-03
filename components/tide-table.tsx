@@ -185,8 +185,8 @@ export function TideTable({ lat }: TideTableProps) {
             <p className="text-[9px] md:text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
               Próxima
             </p>
-            <p className="text-xs md:text-sm font-bold text-foreground">
-              {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em {countdown.hours}h {countdown.minutes}m
+            <p className={`text-xs md:text-sm font-bold ${nextTide.type === "alta" ? "text-sky-400" : "text-teal-400"}`}>
+              {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em {countdown.hours > 0 ? `${countdown.hours}h ${countdown.minutes}m` : `${countdown.minutes}m`}
             </p>
             {/* Progress line */}
             <div className="mt-2 flex items-center gap-1">
@@ -201,11 +201,11 @@ export function TideTable({ lat }: TideTableProps) {
                   return (
                     <>
                       <div 
-                        className="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-[600ms] ease-out"
+                        className={`absolute left-0 top-0 h-full rounded-full transition-all duration-[600ms] ease-out ${nextTide.type === "alta" ? "bg-sky-400" : "bg-teal-400"}`}
                         style={{ width: `${progress}%` }}
                       />
                       <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md shadow-primary/60 border-2 border-background transition-all duration-[600ms] ease-out"
+                        className={`absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full shadow-md border-2 border-background transition-all duration-[600ms] ease-out ${nextTide.type === "alta" ? "bg-sky-400 shadow-sky-400/60" : "bg-teal-400 shadow-teal-400/60"}`}
                         style={{ left: `calc(${progress}% - 6px)` }}
                       />
                     </>
