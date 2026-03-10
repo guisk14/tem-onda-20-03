@@ -178,7 +178,7 @@ export function TideTable({ lat }: TideTableProps) {
             Mares
           </p>
           <h3 className="text-sm md:text-lg font-bold text-foreground">
-            <span className="md:hidden">Marés de Hoje</span>
+            <span className="md:hidden">Marés Hoje</span>
             <span className="hidden md:inline">Tabela de Marés de Hoje</span>
           </h3>
         </div>
