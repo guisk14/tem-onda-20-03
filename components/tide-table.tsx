@@ -475,8 +475,8 @@ export function TideTable({ lat }: TideTableProps) {
                   ? "border-border/50 bg-secondary/30 opacity-60"
                   : isNext
                     ? isHigh 
-                      ? "border-sky-400/40 bg-secondary/50 ring-1 ring-sky-400/20"
-                      : "border-teal-400/40 bg-secondary/50 ring-1 ring-teal-400/20"
+                      ? "border-[rgba(56,189,248,0.35)] bg-[rgba(56,189,248,0.03)]"
+                      : "border-[rgba(45,212,191,0.35)] bg-[rgba(45,212,191,0.03)]"
                     : "border-border bg-secondary/50"
               }`}
             >
