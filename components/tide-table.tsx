@@ -185,8 +185,8 @@ export function TideTable({ lat }: TideTableProps) {
             <p className="text-[9px] md:text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
               Próxima
             </p>
-            <p className={`text-xs md:text-sm font-bold ${nextTide.type === "alta" ? "text-sky-400" : "text-teal-400"}`}>
-              {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em {countdown.hours > 0 ? `${countdown.hours}h ${countdown.minutes}m` : `${countdown.minutes}m`}
+            <p className="text-xs md:text-sm font-bold text-foreground">
+              {nextTide.type === "alta" ? "Maré Alta" : "Maré Baixa"} em {countdown.hours}h {countdown.minutes}m
             </p>
             {/* Progress line */}
             <div className="mt-2 flex items-center gap-1">
@@ -201,11 +201,11 @@ export function TideTable({ lat }: TideTableProps) {
                   return (
                     <>
                       <div 
-                        className={`absolute left-0 top-0 h-full rounded-full transition-all duration-[600ms] ease-out ${nextTide.type === "alta" ? "bg-sky-400" : "bg-teal-400"}`}
+                        className="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-[600ms] ease-out"
                         style={{ width: `${progress}%` }}
                       />
                       <div 
-                        className={`absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full shadow-md border-2 border-background transition-all duration-[600ms] ease-out ${nextTide.type === "alta" ? "bg-sky-400 shadow-sky-400/60" : "bg-teal-400 shadow-teal-400/60"}`}
+                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md shadow-primary/60 border-2 border-background transition-all duration-[600ms] ease-out"
                         style={{ left: `calc(${progress}% - 6px)` }}
                       />
                     </>
@@ -235,10 +235,9 @@ export function TideTable({ lat }: TideTableProps) {
           preserveAspectRatio="none"
         >
           <defs>
-            {/* Gradiente suavizado com 3 stops para mais profundidade */}
+            {/* Gradiente mais forte para sensacao de profundidade de agua */}
             <linearGradient id="tideFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.28" />
-              <stop offset="55%" stopColor="#38bdf8" stopOpacity="0.10" />
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.35" />
               <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.02" />
             </linearGradient>
             {/* Gradiente para trecho ativo (agora -> proxima mare) */}
@@ -246,37 +245,20 @@ export function TideTable({ lat }: TideTableProps) {
               <stop offset="0%" stopColor="#38bdf8" stopOpacity="1" />
               <stop offset="100%" stopColor="#2dd4bf" stopOpacity="1" />
             </linearGradient>
-            {/* Filtro de glow para linha principal */}
-            <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            {/* Filtro de glow para ponto atual */}
-            <filter id="nowGlow" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
           {/* Fill */}
           <path d={areaPath} fill="url(#tideFill)" />
 
-          {/* Curve line com glow suave */}
+          {/* Curve line - mais fraca */}
           <path
             d={linePath}
             fill="none"
             stroke="#38bdf8"
-            strokeWidth="2.5"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeOpacity="0.6"
-            filter="url(#lineGlow)"
+            strokeOpacity="0.4"
           />
 
           {/* Highlighted segment: agora -> proxima mare */}
@@ -335,27 +317,25 @@ export function TideTable({ lat }: TideTableProps) {
             />
           ))}
 
-          {/* Current time indicator com animacao pulse e glow */}
+          {/* Current time indicator com animacao pulse */}
           <line
             x1={nowX}
             y1={pad}
             x2={nowX}
             y2={svgH - pad}
             stroke="#f43f5e"
-            strokeWidth="1.5"
-            strokeDasharray="3 3"
+            strokeWidth="1"
+            strokeDasharray="2 2"
             className="now-line"
-            filter="url(#nowGlow)"
           />
           <circle
             cx={nowX}
             cy={nowY}
-            r="4"
+            r="3"
             fill="#f43f5e"
             stroke="#121214"
             strokeWidth="1.5"
             className="now-line"
-            filter="url(#nowGlow)"
           />
         </svg>
       </div>
