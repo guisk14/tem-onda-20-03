@@ -388,46 +388,49 @@ export function TideTable({ lat }: TideTableProps) {
       </div>
 
       {/* Tide cards */}
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         {tides.map((tide, i) => {
           const isHigh = tide.type === "alta"
           const isPast = mounted && tide.hour < currentHour
+          const isNext = mounted && !isPast && tide === nextTide
           return (
             <div
               key={i}
-              className={`relative flex flex-col items-center gap-1 rounded-xl border px-3 py-3 md:px-4 md:py-4 transition-all ${
+              className={`relative flex flex-col items-center gap-1.5 md:gap-2 rounded-xl border p-4 md:p-5 transition-all ${
                 isPast
-                  ? "border-border/50 bg-secondary/30 opacity-60"
-                  : "border-border bg-secondary/50"
+                  ? "border-border/40 bg-secondary/20 opacity-50"
+                  : isNext
+                    ? "border-sky-400/25 bg-[rgba(255,255,255,0.02)]"
+                    : "border-border bg-secondary/50"
               }`}
             >
-              {mounted && !isPast && tide === nextTide && (
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-primary text-[7px] md:text-[8px] font-bold uppercase tracking-wider text-primary-foreground">
+              {isNext && (
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sky-500 text-[8px] md:text-[9px] font-bold uppercase tracking-wider text-white">
                   Próxima
                 </div>
               )}
               <div
-                className={`flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-full ${
+                className={`flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full ${
                   isHigh
-                    ? "bg-sky-500/15 text-sky-400"
-                    : "bg-teal-500/15 text-teal-400"
+                    ? "bg-sky-500/20 text-sky-400"
+                    : "bg-teal-500/20 text-teal-400"
                 }`}
               >
                 {isHigh ? (
-                  <ArrowUp className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  <ArrowUp className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} />
                 ) : (
-                  <ArrowDown className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  <ArrowDown className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} />
                 )}
               </div>
-              <span className={`text-[9px] md:text-[11px] font-bold uppercase tracking-wide ${
-                isHigh ? "text-sky-400/80" : "text-teal-400/80"
+              <span className={`text-[10px] md:text-xs font-medium uppercase tracking-[0.05em] ${
+                isHigh ? "text-sky-400" : "text-teal-400"
               }`}>
                 {isHigh ? "Maré Alta" : "Maré Baixa"}
               </span>
-              <span className="text-base md:text-xl font-black text-foreground leading-none">
+              <span className="text-[22px] md:text-2xl font-bold text-foreground leading-none">
                 {tide.time}
               </span>
-              <span className="text-[11px] md:text-sm text-muted-foreground font-semibold">
+              <span className="text-sm md:text-base text-muted-foreground/70 font-medium">
                 {tide.height}m
               </span>
             </div>
