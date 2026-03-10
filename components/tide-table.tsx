@@ -170,7 +170,7 @@ export function TideTable({ lat }: TideTableProps) {
   const nextTide = mounted ? tides.find(t => t.hour > currentHour) : tides[0]
 
   return (
-    <div className="rounded-xl border border-border bg-card px-5 py-4 md:p-6">
+    <div className="rounded-xl border border-border bg-card p-4 md:p-5">
       <div className="flex items-start justify-between mb-3">
         <div>
           <p className="hidden md:block text-xs font-bold uppercase tracking-widest text-primary mb-0.5">
