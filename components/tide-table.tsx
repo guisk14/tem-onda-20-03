@@ -170,8 +170,9 @@ export function TideTable({ lat }: TideTableProps) {
   const nextTide = mounted ? tides.find(t => t.hour > currentHour) : tides[0]
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4 md:p-5">
-      <div className="flex items-start justify-between mb-3">
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
+      {/* Header com padding interno */}
+      <div className="flex items-start justify-between px-4 pt-4 pb-3 md:px-5 md:pt-5">
         <div>
           <p className="hidden md:block text-xs font-bold uppercase tracking-widest text-primary mb-0.5">
             Mares
@@ -264,8 +265,8 @@ export function TideTable({ lat }: TideTableProps) {
         )}
       </div>
 
-      {/* Mini tide curve */}
-      <div className="relative mb-4 rounded-lg overflow-hidden bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)]">
+      {/* Mini tide curve - sem bordas arredondadas nas laterais */}
+      <div className="relative mb-4 overflow-hidden bg-[rgba(0,0,0,0.2)] border-y border-[rgba(255,255,255,0.05)]">
         <style>{`
           @keyframes pulse {
             0% { opacity: 0.4 }
@@ -387,8 +388,8 @@ export function TideTable({ lat }: TideTableProps) {
         </svg>
       </div>
 
-      {/* Tide cards */}
-      <div className="grid grid-cols-2 gap-1.5 md:grid-cols-4 md:gap-3">
+      {/* Tide cards - com padding interno */}
+      <div className="grid grid-cols-2 gap-1.5 md:grid-cols-4 md:gap-3 px-4 pb-4 md:px-5 md:pb-5">
         {tides.map((tide, i) => {
           const isHigh = tide.type === "alta"
           const isPast = mounted && tide.hour < currentHour
