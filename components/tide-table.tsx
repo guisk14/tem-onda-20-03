@@ -201,11 +201,11 @@ export function TideTable({ lat }: TideTableProps) {
                   return (
                     <>
                       <div 
-                        className="absolute left-0 top-0 h-full bg-primary rounded-full"
+                        className="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-[600ms] ease-out"
                         style={{ width: `${progress}%` }}
                       />
                       <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md shadow-primary/60 border-2 border-background"
+                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md shadow-primary/60 border-2 border-background transition-all duration-[600ms] ease-out"
                         style={{ left: `calc(${progress}% - 6px)` }}
                       />
                     </>
