@@ -246,13 +246,13 @@ export function TideTable({ lat }: TideTableProps) {
           )}
         </div>
 
-        {/* Mobile: layout empilhado */}
-        <div className="md:hidden">
+        {/* Mobile: layout empilhado e centralizado */}
+        <div className="md:hidden flex flex-col items-center text-center">
           <h3 className="text-sm font-bold text-foreground mb-2">
             Marés Hoje
           </h3>
           {nextTide && (
-            <div>
+            <div className="flex flex-col items-center">
               <p className="text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
                 Próxima Maré
               </p>
