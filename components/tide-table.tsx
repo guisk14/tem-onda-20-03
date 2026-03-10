@@ -193,9 +193,18 @@ export function TideTable({ lat }: TideTableProps) {
                 {" "}{countdown.hours > 0 ? `${countdown.hours}h ${countdown.minutes}m` : `${countdown.minutes}m`}
               </span>
             </p>
-            {/* Progress line */}
-            <div className="mt-2 flex items-center gap-1">
-              <div className="relative h-[3px] w-[180px] bg-muted-foreground/30 rounded-full">
+            {/* Progress line com animacao de onda */}
+            <style>{`
+              @keyframes waveFlow {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(0%); }
+              }
+              .wave-animation {
+                animation: waveFlow 2s ease-in-out infinite;
+              }
+            `}</style>
+            <div className="mt-2 flex items-center justify-end">
+              <div className="relative h-[4px] w-[180px] bg-muted-foreground/20 rounded-full overflow-hidden">
                 {(() => {
                   // Calculate progress between previous tide and next tide
                   const prevTideIndex = tides.findIndex(t => t === nextTide) - 1
@@ -203,14 +212,30 @@ export function TideTable({ lat }: TideTableProps) {
                   const totalDuration = nextTide.hour - prevTide.hour
                   const elapsed = currentHour - prevTide.hour
                   const progress = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100)
+                  const tideColor = nextTide.type === "alta" ? "sky" : "teal"
                   return (
                     <>
+                      {/* Base fixa - cor clara */}
                       <div 
-                        className="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-[600ms] ease-out"
+                        className={`absolute left-0 top-0 h-full rounded-full transition-all duration-[600ms] ease-out ${tideColor === "sky" ? "bg-sky-400/50" : "bg-teal-400/50"}`}
                         style={{ width: `${progress}%` }}
                       />
+                      {/* Wave animada - cor mais forte */}
                       <div 
-                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md shadow-primary/60 border-2 border-background transition-all duration-[600ms] ease-out"
+                        className="absolute left-0 top-0 h-full overflow-hidden rounded-full"
+                        style={{ width: `${progress}%` }}
+                      >
+                        <div 
+                          className={`wave-animation h-full w-[200%] rounded-full ${tideColor === "sky" ? "bg-gradient-to-r from-sky-500 via-sky-400 to-sky-500" : "bg-gradient-to-r from-teal-500 via-teal-400 to-teal-500"}`}
+                          style={{ 
+                            filter: 'blur(0.5px)',
+                            opacity: 0.9
+                          }}
+                        />
+                      </div>
+                      {/* Ponto circular com glow */}
+                      <div 
+                        className={`absolute top-1/2 -translate-y-1/2 w-[12px] h-[12px] rounded-full border-2 border-card transition-all duration-[600ms] ease-out ${tideColor === "sky" ? "bg-sky-400 shadow-[0_0_8px_2px_rgba(56,189,248,0.6)]" : "bg-teal-400 shadow-[0_0_8px_2px_rgba(45,212,191,0.6)]"}`}
                         style={{ left: `calc(${progress}% - 6px)` }}
                       />
                     </>
