@@ -274,7 +274,7 @@ export function TideTable({ lat }: TideTableProps) {
                 }
               `}</style>
               <div className="mt-2">
-                <div className="relative h-[4px] w-[160px] bg-muted-foreground/20 rounded-full">
+                <div className="relative h-[4px] w-[150px] bg-muted-foreground/20 rounded-full">
                   {(() => {
                     const prevTideIndex = tides.findIndex(t => t === nextTide) - 1
                     const prevTide = prevTideIndex >= 0 ? tides[prevTideIndex] : { ...tides[tides.length - 1], hour: tides[tides.length - 1].hour - 24 }
