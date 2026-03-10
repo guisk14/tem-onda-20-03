@@ -204,7 +204,7 @@ export function TideTable({ lat }: TideTableProps) {
               }
             `}</style>
             <div className="mt-2 flex items-center justify-end">
-              <div className="relative h-[4px] w-[180px] bg-muted-foreground/20 rounded-full overflow-hidden">
+              <div className="relative h-[4px] w-[180px] bg-muted-foreground/20 rounded-full">
                 {(() => {
                   // Calculate progress between previous tide and next tide
                   const prevTideIndex = tides.findIndex(t => t === nextTide) - 1
@@ -222,8 +222,8 @@ export function TideTable({ lat }: TideTableProps) {
                       />
                       {/* Wave animada - cor mais forte */}
                       <div 
-                        className="absolute left-0 top-0 h-full overflow-hidden rounded-full"
-                        style={{ width: `${progress}%` }}
+                        className="absolute left-0 top-0 h-full overflow-hidden rounded-full z-0"
+                        style={{ width: `${progress}%`, maxWidth: '100%' }}
                       >
                         <div 
                           className={`wave-animation h-full w-[200%] rounded-full ${tideColor === "sky" ? "bg-gradient-to-r from-sky-500 via-sky-400 to-sky-500" : "bg-gradient-to-r from-teal-500 via-teal-400 to-teal-500"}`}
@@ -233,10 +233,10 @@ export function TideTable({ lat }: TideTableProps) {
                           }}
                         />
                       </div>
-                      {/* Ponto circular com glow */}
+                      {/* Ponto circular com glow - fora do overflow */}
                       <div 
-                        className={`absolute top-1/2 -translate-y-1/2 w-[12px] h-[12px] rounded-full border-2 border-card transition-all duration-[600ms] ease-out ${tideColor === "sky" ? "bg-sky-400 shadow-[0_0_8px_2px_rgba(56,189,248,0.6)]" : "bg-teal-400 shadow-[0_0_8px_2px_rgba(45,212,191,0.6)]"}`}
-                        style={{ left: `calc(${progress}% - 6px)` }}
+                        className={`absolute top-1/2 -translate-y-1/2 w-[14px] h-[14px] rounded-full border-2 border-card transition-all duration-[600ms] ease-out z-10 ${tideColor === "sky" ? "bg-sky-400 shadow-[0_0_10px_3px_rgba(56,189,248,0.7)]" : "bg-teal-400 shadow-[0_0_10px_3px_rgba(45,212,191,0.7)]"}`}
+                        style={{ left: `calc(${progress}% - 7px)` }}
                       />
                     </>
                   )
