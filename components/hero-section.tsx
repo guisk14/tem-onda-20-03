@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
 export function HeroSection() {
@@ -12,7 +11,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative flex min-h-[60vh] md:min-h-[70vh] flex-col items-center justify-center overflow-hidden px-4 py-12 md:py-16">
+    <section className="relative flex min-h-[50vh] md:min-h-[60vh] flex-col items-center justify-center overflow-hidden px-4 py-12 md:py-16">
       {/* Animated wave background */}
       <div className="absolute inset-0 overflow-hidden">
         <div 
@@ -28,10 +27,10 @@ export function HeroSection() {
         >
           <path
             d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-            fill="url(#waveGradient)"
+            fill="url(#heroWaveGradient)"
           />
           <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="heroWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#38bdf8" />
               <stop offset="50%" stopColor="#0ea5e9" />
               <stop offset="100%" stopColor="#38bdf8" />
@@ -50,34 +49,29 @@ export function HeroSection() {
         </svg>
       </div>
 
-      {/* Glow effect behind logo */}
+      {/* Glow effect */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full opacity-30 blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full opacity-20 blur-3xl"
         style={{
-          background: "radial-gradient(circle, rgba(56,189,248,0.4) 0%, transparent 70%)"
+          background: "radial-gradient(circle, rgba(56,189,248,0.5) 0%, transparent 70%)"
         }}
       />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center">
-        {/* Logo */}
-        <div className="relative mb-6 md:mb-8">
-          <Image
-            src="/images/logo-temonda.png"
-            alt="Tem Onda"
-            width={320}
-            height={120}
-            className="w-[240px] md:w-[360px] lg:w-[420px] h-auto drop-shadow-2xl"
-            priority
-          />
-        </div>
+        {/* Main headline */}
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6">
+          <span className="text-sky-400" style={{ textShadow: '0 0 30px rgba(56,189,248,0.5)' }}>
+            Previsao de Ondas
+          </span>
+        </h1>
 
         {/* Tagline */}
-        <p className="max-w-md md:max-w-lg text-base md:text-lg text-muted-foreground/80 leading-relaxed mb-2">
-          Previsao de ondas em tempo real para o litoral paulista
+        <p className="max-w-md md:max-w-lg text-base md:text-xl text-muted-foreground/80 leading-relaxed mb-3">
+          Dados em tempo real para o litoral paulista
         </p>
         
-        {/* Subtitle */}
+        {/* Subtitle metrics */}
         <p className="text-sm md:text-base text-muted-foreground/60 mb-8 md:mb-10">
           Altura <span className="mx-1.5 text-sky-400/60">·</span> 
           Periodo <span className="mx-1.5 text-sky-400/60">·</span> 

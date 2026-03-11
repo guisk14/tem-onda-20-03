@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Waves, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
+import Image from "next/image"
 
 const navLinks = [
   { label: "Inicio", href: "#", active: true },
@@ -14,14 +15,16 @@ export function Topbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between bg-[rgba(24,24,27,0.8)] backdrop-blur-xl px-6 py-4 border-b border-border lg:px-8 lg:justify-start lg:gap-8">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
-          <Waves className="h-5 w-5 text-primary" />
-        </div>
-        <h1 className="text-lg font-extrabold uppercase tracking-tight text-foreground">
-          TEM ONDA
-        </h1>
+    <header className="sticky top-0 z-50 flex items-center justify-between bg-[rgba(24,24,27,0.8)] backdrop-blur-xl px-6 py-3 border-b border-border lg:px-8 lg:justify-start lg:gap-8">
+      <div className="flex items-center">
+        <Image
+          src="/images/logo-temonda.png"
+          alt="Tem Onda"
+          width={140}
+          height={50}
+          className="h-10 md:h-12 w-auto"
+          priority
+        />
       </div>
 
       <button
