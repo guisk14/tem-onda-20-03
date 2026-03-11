@@ -7,7 +7,7 @@ const footerLinks = [
       { label: "Inicio", href: "#" },
       { label: "Previsao", href: "#" },
       { label: "Comunidade", href: "#" },
-      { label: "Contato", href: "#" },
+      { label: "Contato", href: "/contato" },
     ],
   },
   {
