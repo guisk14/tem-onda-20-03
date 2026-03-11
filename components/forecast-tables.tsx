@@ -101,12 +101,12 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         {/* Mobile title */}
         <h3 className="md:hidden mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
           {"Direção do Vento "}
-          <span className="text-primary">{beachName}</span>
+          <span className="text-sky-400" style={{ textShadow: '0 0 8px rgba(56,189,248,0.4)' }}>{beachName}</span>
         </h3>
         {/* Desktop title */}
         <h3 className="hidden md:block mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
           {"Direção do Vento (Maral / Terral) — "}
-          <span className="text-primary">{beachName}</span>
+          <span className="text-sky-400" style={{ textShadow: '0 0 8px rgba(56,189,248,0.4)' }}>{beachName}</span>
         </h3>
 
         {/* Wind Day selector */}
