@@ -302,7 +302,7 @@ export function WaveChart({ data }: WaveChartProps) {
               y1={0}
               x2={g.startIdx * step}
               y2={H}
-              stroke="rgba(255,255,255,0.1)"
+              stroke="rgba(255,255,255,0.05)"
               strokeWidth={1}
             />
           ))}
