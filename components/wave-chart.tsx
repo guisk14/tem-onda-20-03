@@ -267,11 +267,19 @@ export function WaveChart({ data }: WaveChartProps) {
           onTouchEnd={onPointerLeave}
           preserveAspectRatio="none"
         >
+          {/* Gradient definition for wave */}
+          <defs>
+            <linearGradient id="waveGradient" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
+              <stop offset="100%" stopColor="rgba(56,189,248,0.1)" />
+            </linearGradient>
+          </defs>
+
           {/* Wind area - gray */}
           <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-          {/* Wave layer - light blue */}
-          <path d={waveAreaPath2} fill="#5bb8d4" opacity={0.7} />
+          {/* Wave layer - gradient blue */}
+          <path d={waveAreaPath2} fill="url(#waveGradient)" />
 
           {/* Period line - red */}
           <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
