@@ -284,8 +284,7 @@ export function WaveChart({ data }: WaveChartProps) {
             />
           ))}
 
-          {/* Now marker - solid red vertical line */}
-          <line x1={nowX} y1={0} x2={nowX} y2={H} stroke="#dc2626" strokeWidth={2} />
+          {/* Now marker removed */}
 
           {/* Interactive hover line */}
           {hoveredIdx !== null && (
