@@ -153,14 +153,14 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         <DaySelector segments={segments} selectedIdx={selectedDayIdx} onSelect={setSelectedDayIdx} />
 
         <div className="rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)] md:overflow-x-auto">
-          <table className="w-full text-center md:text-left">
+          <table className="w-full text-center">
             <thead>
               <tr>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Hora</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Altura</th>
-                <th className="hidden md:table-cell px-4 py-3 text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Periodo (s)</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Dir.</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Vento</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Hora</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Altura</th>
+                <th className="hidden md:table-cell px-4 py-3 text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Periodo (s)</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Dir.</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Vento</th>
               </tr>
             </thead>
             <tbody>
@@ -173,13 +173,13 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
               ) : (
                 filteredTableData.map((row, i) => (
                   <tr key={i} className="border-t border-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
-                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{row.time}</td>
-                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-sky-400">{formatNum(row.height, 1)} m</td>
-                    <td className="hidden md:table-cell px-4 py-3 text-sm text-foreground">{formatNum(row.period, 1)}</td>
-                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground text-center">{row.time}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-sky-400 text-center">{formatNum(row.height, 1)} m</td>
+                    <td className="hidden md:table-cell px-4 py-3 text-sm text-foreground text-center">{formatNum(row.period, 1)}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground text-center">
                       <span className="hidden md:inline">{formatNum(row.direction, 0)}° </span>{degToCompass(row.direction)}
                     </td>
-                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground text-center">
                       {Math.round(row.windSpeed)} km/h {degToCompass(row.windDirDeg)}
                     </td>
                   </tr>
