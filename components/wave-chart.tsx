@@ -16,7 +16,7 @@ function dayKey(iso: string) {
 
 function dayLabel(iso: string) {
   const d = safeParseDate(iso)
-  return `${DIAS_SEMANA[d.getDay()]} (${d.getDate()})`
+  return `${DIAS_SEMANA[d.getDay()]} ${d.getDate()}`
 }
 
 function hourOnly(iso: string) {
