@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
+import { WaveMetricsDisplay } from "./wave-metrics-display"
 
 interface HeroSectionProps {
   currentHeight?: number
@@ -97,34 +98,18 @@ export function HeroSection({ currentHeight, currentPeriod, currentWind }: HeroS
             <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" />
           </button>
 
-          {/* Quick Stats */}
-          <div className="mt-10 flex items-center gap-4 md:gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl md:text-3xl font-bold text-white">
-                {currentHeight?.toFixed(1) ?? "—"}
-                <span className="text-base md:text-lg font-medium text-white/50 ml-0.5">m</span>
-              </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-wider text-white/40 font-medium">Altura</span>
-            </div>
-            <span className="text-white/20">|</span>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl md:text-3xl font-bold text-white">
-                {currentPeriod?.toFixed(0) ?? "—"}
-                <span className="text-base md:text-lg font-medium text-white/50 ml-0.5">s</span>
-              </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-wider text-white/40 font-medium">Periodo</span>
-            </div>
-            <span className="text-white/20">|</span>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl md:text-3xl font-bold text-white">
-                {currentWind?.toFixed(0) ?? "—"}
-                <span className="text-base md:text-lg font-medium text-white/50 ml-0.5">km/h</span>
-              </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-wider text-white/40 font-medium">Vento</span>
-            </div>
-          </div>
+        </div>
+
+        {/* Wave Metrics Display */}
+        <div className="mt-10 md:mt-12 max-w-xl">
+          <WaveMetricsDisplay 
+            height={currentHeight}
+            period={currentPeriod}
+            wind={currentWind}
+          />
         </div>
       </div>
+    </div>
 
       {/* Bottom fade line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-500/30 to-transparent" />
