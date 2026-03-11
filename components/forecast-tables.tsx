@@ -94,50 +94,6 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
     return data.windTableData.slice(seg.startIdx, seg.endIdx + 1)
   }, [data, windSegments, selectedWindDayIdx])
 
-  // Gera resumo do vento do dia
-  const windSummary = useMemo(() => {
-    if (!filteredWindData.length) return null
-    
-    // Divide em periodos: manha (00-11h), tarde (12-17h), noite (18-23h)
-    const morning = filteredWindData.filter(r => {
-      const h = parseInt(r.hour.split(":")[0])
-      return h >= 0 && h < 12
-    })
-    const afternoon = filteredWindData.filter(r => {
-      const h = parseInt(r.hour.split(":")[0])
-      return h >= 12 && h < 18
-    })
-    const evening = filteredWindData.filter(r => {
-      const h = parseInt(r.hour.split(":")[0])
-      return h >= 18
-    })
-
-    // Funcao para pegar o tipo predominante de um periodo
-    const getPredominant = (rows: typeof filteredWindData) => {
-      if (!rows.length) return null
-      const counts: Record<string, number> = {}
-      rows.forEach(r => {
-        const key = `${r.type} ${r.intensity}`
-        counts[key] = (counts[key] || 0) + 1
-      })
-      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
-      return sorted[0]?.[0] || null
-    }
-
-    const morningWind = getPredominant(morning)
-    const afternoonWind = getPredominant(afternoon)
-    const eveningWind = getPredominant(evening)
-
-    // Monta o resumo
-    const parts: string[] = []
-    if (morningWind) parts.push(`${morningWind} pela manhã`)
-    if (afternoonWind && afternoonWind !== morningWind) parts.push(`${afternoonWind} à tarde`)
-    else if (afternoonWind) parts.push(`mantém à tarde`)
-    if (eveningWind && eveningWind !== afternoonWind) parts.push(`${eveningWind} à noite`)
-
-    return parts.length ? parts.join(", ") : null
-  }, [filteredWindData])
-
   return (
     <div className="flex flex-col gap-4">
       {/* Wind Table */}
@@ -149,16 +105,6 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
 
         {/* Wind Day selector */}
         <DaySelector segments={windSegments} selectedIdx={selectedWindDayIdx} onSelect={setSelectedWindDayIdx} />
-
-        {/* Resumo do vento do dia */}
-        {windSummary && (
-          <div className="mb-4 px-3 py-2.5 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.05)]">
-            <p className="text-[11px] md:text-xs text-muted-foreground">
-              <span className="font-medium text-foreground/80">Condição do vento:</span>{" "}
-              <span className="text-foreground/60">{windSummary}</span>
-            </p>
-          </div>
-        )}
         <div className="rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)] md:overflow-x-auto">
           <table className="w-full text-center">
             <thead>
