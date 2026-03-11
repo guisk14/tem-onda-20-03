@@ -98,7 +98,7 @@ export function HeroSection() {
       <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32 overflow-hidden">
         {/* Wave 1 - Back */}
         <svg 
-          className="absolute bottom-0 w-[200%] h-full animate-wave-slow opacity-35"
+          className="absolute bottom-0 w-[200%] h-full animate-wave-slow opacity-20"
           viewBox="0 0 1440 120" 
           preserveAspectRatio="none"
         >
@@ -117,7 +117,7 @@ export function HeroSection() {
 
         {/* Wave 2 - Middle */}
         <svg 
-          className="absolute bottom-0 w-[200%] h-full animate-wave-medium opacity-45"
+          className="absolute bottom-0 w-[200%] h-full animate-wave-medium opacity-30"
           viewBox="0 0 1440 120" 
           preserveAspectRatio="none"
         >
@@ -136,7 +136,7 @@ export function HeroSection() {
 
         {/* Wave 3 - Front */}
         <svg 
-          className="absolute bottom-0 w-[200%] h-full animate-wave-fast opacity-55"
+          className="absolute bottom-0 w-[200%] h-full animate-wave-fast opacity-40"
           viewBox="0 0 1440 120" 
           preserveAspectRatio="none"
         >
