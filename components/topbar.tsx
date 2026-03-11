@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Waves, Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -12,27 +12,44 @@ const navLinks = [
 
 export function Topbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between bg-[rgba(24,24,27,0.8)] backdrop-blur-xl px-6 py-4 border-b border-border lg:px-8 lg:justify-start lg:gap-8">
+    <header 
+      className={`sticky top-0 z-50 flex items-center justify-between backdrop-blur-[8px] bg-[rgba(10,15,25,0.6)] px-6 border-b border-white/10 lg:px-8 lg:justify-start lg:gap-8 transition-all duration-300 ${
+        scrolled ? "py-3" : "py-4"
+      }`}
+    >
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
-          <Waves className="h-5 w-5 text-primary" />
+        <div className={`flex items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_15px_rgba(56,189,248,0.3)] transition-all duration-300 ${
+          scrolled ? "h-9 w-9" : "h-10 w-10"
+        }`}>
+          <Waves className={`text-primary transition-all duration-300 ${scrolled ? "h-4 w-4" : "h-5 w-5"}`} />
         </div>
-        <h1 className="text-lg font-extrabold uppercase tracking-tight text-foreground">
+        <h1 className={`font-extrabold uppercase tracking-tight text-foreground transition-all duration-300 ${
+          scrolled ? "text-base" : "text-lg"
+        }`}>
           TEM ONDA
         </h1>
       </div>
 
       <button
-        className="flex flex-col gap-1.5 lg:hidden p-2 ml-auto"
+        className="flex items-center justify-center w-[42px] h-[42px] rounded-xl bg-white/5 lg:hidden ml-auto transition-colors hover:bg-white/10"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Menu"
       >
         {menuOpen ? (
-          <X className="h-6 w-6 text-foreground" />
+          <X className="h-5 w-5 text-foreground" />
         ) : (
-          <Menu className="h-6 w-6 text-foreground" />
+          <Menu className="h-5 w-5 text-foreground" />
         )}
       </button>
 
