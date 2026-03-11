@@ -156,11 +156,11 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
           <table className="w-full text-center md:text-left">
             <thead>
               <tr>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Hora</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Altura</th>
-                <th className="hidden md:table-cell px-4 py-3 text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Periodo (s)</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Dir.</th>
-                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-xs font-bold uppercase text-muted-foreground bg-[rgba(255,255,255,0.02)]">Vento</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Hora</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Altura</th>
+                <th className="hidden md:table-cell px-4 py-3 text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Periodo (s)</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Dir.</th>
+                <th className="px-1.5 py-1.5 text-[10px] md:px-4 md:py-3 md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Vento</th>
               </tr>
             </thead>
             <tbody>
@@ -172,9 +172,9 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                 </tr>
               ) : (
                 filteredTableData.map((row, i) => (
-                  <tr key={i} className="border-t border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.03)] transition-colors">
+                  <tr key={i} className="border-t border-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
                     <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{row.time}</td>
-                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-primary">{formatNum(row.height, 1)}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-sky-400">{formatNum(row.height, 1)} m</td>
                     <td className="hidden md:table-cell px-4 py-3 text-sm text-foreground">{formatNum(row.period, 1)}</td>
                     <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
                       <span className="hidden md:inline">{formatNum(row.direction, 0)}° </span>{degToCompass(row.direction)}
