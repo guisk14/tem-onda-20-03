@@ -69,10 +69,10 @@ const CARD_THEMES = {
 
 function CardSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-[#1c2a3a] to-[#16212d] p-6 min-h-[160px] border border-[rgba(255,255,255,0.04)]">
-      <div className="h-8 w-8 rounded-full bg-[#2a3a4e] animate-pulse mb-3" />
-      <div className="h-3 w-16 rounded bg-[#2a3a4e] animate-pulse mb-3" />
-      <div className="h-10 w-24 rounded bg-[#2a3a4e] animate-pulse mb-2" />
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border">
+      <div className="h-8 w-8 rounded-full bg-muted animate-pulse mb-3" />
+      <div className="h-3 w-16 rounded bg-muted animate-pulse mb-3" />
+      <div className="h-10 w-24 rounded bg-muted animate-pulse mb-2" />
     </div>
   )
 }
@@ -90,14 +90,9 @@ interface MetricCardProps {
 function MetricCard({ icon, label, value, unit, subtitle, accentColor, glowBg }: MetricCardProps) {
   return (
     <div
-      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1"
+      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border"
       style={{
-        background: "linear-gradient(180deg, #1c2a3a 0%, #16212d 100%)",
         borderTop: `3px solid ${accentColor}`,
-        border: `1px solid rgba(255,255,255,0.05)`,
-        borderTopWidth: "3px",
-        borderTopColor: accentColor,
-        boxShadow: `0 4px 20px rgba(0,0,0,0.2)`,
       }}
     >
       {/* Glow background on hover */}
