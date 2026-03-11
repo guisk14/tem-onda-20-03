@@ -24,7 +24,7 @@ export function Topbar() {
 
   return (
     <header 
-      className={`sticky top-0 z-50 flex items-center justify-between backdrop-blur-[8px] bg-[rgba(10,15,25,0.6)] px-6 border-b border-white/10 lg:px-8 lg:justify-start lg:gap-8 transition-all duration-300 ${
+      className={`sticky top-0 z-50 flex items-center justify-between backdrop-blur-[8px] bg-[rgba(10,15,25,0.6)] px-6 border-b border-[rgba(255,255,255,0.06)] lg:px-8 lg:justify-start lg:gap-8 transition-all duration-300 ${
         scrolled ? "py-3" : "py-4"
       }`}
     >
