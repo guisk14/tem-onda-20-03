@@ -21,7 +21,7 @@ function dayLabel(iso: string) {
 
 function hourOnly(iso: string) {
   const d = safeParseDate(iso)
-  return `${String(d.getHours()).padStart(2, "0")} horas`
+  return `${d.getHours()}h`
 }
 
 interface DayGroup {
@@ -252,7 +252,7 @@ export function WaveChart({ data }: WaveChartProps) {
               transform: 'translateX(-50%)'
             }}
           >
-            {dayLabel(point.time)} - {hourOnly(point.time)}
+            {hourOnly(point.time)}
           </div>
         )}
         <svg
