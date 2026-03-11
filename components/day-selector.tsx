@@ -24,7 +24,7 @@ export function DaySelector({ segments, selectedIdx, onSelect }: DaySelectorProp
             type="button"
             onClick={() => onSelect(idx)}
             className={`
-              relative flex flex-col items-center justify-center rounded-lg sm:rounded-xl px-1 sm:px-3 py-2 sm:py-2.5
+              relative flex flex-col sm:flex-row items-center justify-center rounded-lg sm:rounded-xl px-1 sm:px-4 py-2 sm:py-2.5 sm:gap-1.5
               text-center font-bold uppercase transition-all duration-200 cursor-pointer
               ${isActive
                 ? "bg-sky-500 text-white shadow-[0_4px_12px_rgba(56,189,248,0.35)]"
@@ -38,7 +38,7 @@ export function DaySelector({ segments, selectedIdx, onSelect }: DaySelectorProp
             <span className="text-[0.5rem] sm:text-xs font-extrabold tracking-wider leading-none">
               {seg.shortLabel}
             </span>
-            <span className={`text-xs sm:text-lg font-black leading-none mt-0.5 ${isActive ? "text-white" : "text-foreground/70"}`}>
+            <span className={`text-xs sm:text-base font-black leading-none mt-0.5 sm:mt-0 ${isActive ? "text-white" : "text-foreground/70"}`}>
               {seg.number}
             </span>
           </button>
