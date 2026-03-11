@@ -99,7 +99,7 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
       {/* Wind Table */}
       <div className="rounded-xl border border-border bg-card p-5">
         {/* Mobile title */}
-        <h3 className="md:hidden mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
+        <h3 className="md:hidden mb-4 text-sm font-bold uppercase tracking-wide text-foreground text-center">
           Vento <span className="text-muted-foreground/50 mx-1">•</span>
           <span className="text-sky-400" style={{ textShadow: '0 0 8px rgba(56,189,248,0.4)' }}>{beachName}</span>
         </h3>
