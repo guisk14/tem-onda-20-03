@@ -83,11 +83,13 @@ interface MetricCardProps {
   value: string
   unit?: string
   subtitle?: string
+  subtitle2?: string
+  subtitle2Color?: string
   accentColor: string
   glowBg?: string
 }
 
-function MetricCard({ icon, label, value, unit, subtitle, accentColor, glowBg }: MetricCardProps) {
+function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Color, accentColor, glowBg }: MetricCardProps) {
   return (
     <div
       className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border"
@@ -135,6 +137,16 @@ function MetricCard({ icon, label, value, unit, subtitle, accentColor, glowBg }:
       {subtitle && (
         <span className="relative mt-1 sm:mt-1.5 text-[0.55rem] sm:text-xs font-medium text-muted-foreground opacity-70">
           {subtitle}
+        </span>
+      )}
+
+      {/* Subtitle 2 */}
+      {subtitle2 && (
+        <span 
+          className="relative mt-0.5 text-[0.5rem] sm:text-[0.65rem] font-bold uppercase tracking-wide"
+          style={{ color: subtitle2Color || accentColor }}
+        >
+          {subtitle2}
         </span>
       )}
     </div>
@@ -189,7 +201,9 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
         label={CARD_THEMES.vento.label}
         value={`${Math.round(data.currentWindSpeed)}`}
         unit="km/h"
-        subtitle={`${windDir} · Raj. ${Math.round(data.currentWindGust)} · ${data.currentWindType} ${data.currentWindIntensity}`}
+        subtitle={`${windDir} · Raj. ${Math.round(data.currentWindGust)}`}
+        subtitle2={`${data.currentWindType} ${data.currentWindIntensity}`}
+        subtitle2Color={data.currentWindColor}
         accentColor={data.currentWindColor}
         glowBg={data.currentWindColor === "#ef4444" ? "rgba(239,68,68,0.1)" : data.currentWindColor === "#f59e0b" ? "rgba(245,158,11,0.1)" : "rgba(52,211,153,0.1)"}
       />
