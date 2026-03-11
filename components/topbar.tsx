@@ -29,7 +29,7 @@ export function Topbar() {
       }`}
     >
       <div className="flex items-center gap-3">
-        <div className={`flex items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_12px_rgba(56,189,248,0.35)] transition-all duration-300 ${
+        <div className={`flex items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_15px_rgba(56,189,248,0.3)] transition-all duration-300 ${
           scrolled ? "h-9 w-9" : "h-10 w-10"
         }`}>
           <Waves className={`text-primary transition-all duration-300 ${scrolled ? "h-4 w-4" : "h-5 w-5"}`} />
