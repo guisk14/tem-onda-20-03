@@ -106,12 +106,12 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
         {/* Wind Day selector */}
         <DaySelector segments={windSegments} selectedIdx={selectedWindDayIdx} onSelect={setSelectedWindDayIdx} />
         <div className="rounded-lg bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.05)] md:overflow-x-auto">
-          <table className="w-full text-center md:text-left">
+          <table className="w-full text-center">
             <thead>
               <tr>
-                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Hora</th>
-                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Vento</th>
-                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)]">Tipo</th>
+                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Hora</th>
+                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Vento</th>
+                <th className="px-2 py-2 md:px-4 md:py-3 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.05em] text-muted-foreground/60 bg-[rgba(255,255,255,0.02)] text-center">Tipo</th>
               </tr>
             </thead>
             <tbody>
@@ -129,10 +129,10 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                 </tr>
               ) : (
                 filteredWindData.map((row, i) => (
-                  <tr key={i} className="border-t border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.03)] transition-colors">
-                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-muted-foreground">{row.hour}</td>
-                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-foreground font-semibold">{row.speed} km/h {row.direction}</td>
-                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm font-extrabold" style={{ color: row.color }}>
+                  <tr key={i} className="border-t border-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-muted-foreground text-center">{row.hour}</td>
+                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-foreground font-semibold text-center">{row.speed} km/h {row.direction}</td>
+                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm font-extrabold text-center" style={{ color: row.color }}>
                       {row.type} {row.intensity}
                     </td>
                   </tr>
