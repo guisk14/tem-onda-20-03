@@ -1,6 +1,7 @@
 "use client"
 
-import { ChevronDown, Waves, Wind, Clock, Droplets } from "lucide-react"
+import { ChevronDown } from "lucide-react"
+import Image from "next/image"
 
 export function HeroSection() {
   const scrollToContent = () => {
@@ -10,76 +11,121 @@ export function HeroSection() {
     })
   }
 
-  const features = [
-    { icon: Waves, label: "Altura", value: "Tempo real" },
-    { icon: Clock, label: "Periodo", value: "Precisao" },
-    { icon: Wind, label: "Vento", value: "Direcao" },
-    { icon: Droplets, label: "Mare", value: "Tabuas" },
-  ]
-
   return (
-    <section className="relative flex min-h-[45vh] md:min-h-[50vh] flex-col items-center justify-center overflow-hidden px-4 py-10 md:py-14">
-      {/* Subtle grid background */}
+    <section className="relative flex min-h-[50vh] md:min-h-[60vh] flex-col items-center justify-center overflow-hidden px-4 py-12 md:py-16">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-wave.jpg"
+          alt="Ocean wave"
+          fill
+          className="object-cover opacity-30"
+          priority
+        />
+        {/* Dark overlay gradient */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(18,18,20,0.7) 0%, rgba(18,18,20,0.9) 100%)"
+          }}
+        />
+      </div>
+
+      {/* Animated wave overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <svg
+          className="absolute bottom-0 left-0 w-[200%] h-24 md:h-32 opacity-30 animate-wave"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+            fill="url(#heroWaveGradient)"
+          />
+          <defs>
+            <linearGradient id="heroWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="50%" stopColor="#0ea5e9" />
+              <stop offset="100%" stopColor="#38bdf8" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <svg
+          className="absolute bottom-0 left-0 w-[200%] h-20 md:h-28 opacity-20 animate-wave-slow"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,80 C360,20 720,100 1080,40 C1260,10 1380,50 1440,80 L1440,120 L0,120 Z"
+            fill="#0ea5e9"
+          />
+        </svg>
+      </div>
+
+      {/* Glow effect */}
       <div 
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full opacity-20 blur-3xl"
         style={{
-          backgroundImage: `linear-gradient(rgba(56,189,248,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,0.5) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
+          background: "radial-gradient(circle, rgba(56,189,248,0.5) 0%, transparent 70%)"
         }}
       />
 
-      {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full opacity-[0.07] blur-[100px] bg-sky-500" />
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full opacity-[0.05] blur-[80px] bg-cyan-400" />
-
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 mb-6">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-          </span>
-          <span className="text-xs font-medium text-sky-400 uppercase tracking-wider">Litoral Paulista</span>
-        </div>
-
+      <div className="relative z-10 flex flex-col items-center text-center">
         {/* Main headline */}
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
-          Previsao de ondas
-          <br />
-          <span className="text-sky-400">em tempo real</span>
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6">
+          <span className="text-sky-400" style={{ textShadow: '0 0 30px rgba(56,189,248,0.5)' }}>
+            Previsao de Ondas
+          </span>
         </h1>
 
         {/* Tagline */}
-        <p className="max-w-lg text-sm md:text-base text-muted-foreground/70 leading-relaxed mb-8">
-          Dados meteorologicos e oceanograficos atualizados para surfistas do litoral de Sao Paulo
+        <p className="max-w-md md:max-w-lg text-base md:text-xl text-muted-foreground/80 leading-relaxed mb-3">
+          Dados em tempo real para o litoral paulista
         </p>
-
-        {/* Feature pills */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
-          {features.map((feature) => (
-            <div 
-              key={feature.label}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] hover:border-sky-500/30 transition-colors"
-            >
-              <feature.icon className="h-4 w-4 text-sky-400" />
-              <span className="text-xs font-medium text-foreground/80">{feature.label}</span>
-            </div>
-          ))}
-        </div>
+        
+        {/* Subtitle metrics */}
+        <p className="text-sm md:text-base text-muted-foreground/60 mb-8 md:mb-10">
+          Altura <span className="mx-1.5 text-sky-400/60">·</span> 
+          Periodo <span className="mx-1.5 text-sky-400/60">·</span> 
+          Vento <span className="mx-1.5 text-sky-400/60">·</span> 
+          Mare
+        </p>
 
         {/* CTA Button */}
         <button
           onClick={scrollToContent}
-          className="group flex items-center gap-2 px-6 py-3 rounded-full bg-sky-500 hover:bg-sky-400 text-white font-medium text-sm transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)]"
+          className="group flex flex-col items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors"
         >
-          <span>Ver Previsao</span>
-          <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" />
+          <span className="text-sm font-medium tracking-wide uppercase">Ver Previsao</span>
+          <ChevronDown className="h-5 w-5 animate-bounce" />
         </button>
       </div>
 
-      {/* Bottom line accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-500/30 to-transparent" />
+      {/* Bottom gradient fade */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-16 md:h-24 pointer-events-none"
+        style={{
+          background: "linear-gradient(to top, rgba(18,18,20,1) 0%, transparent 100%)"
+        }}
+      />
+
+      <style jsx>{`
+        @keyframes wave {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes wave-slow {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-wave {
+          animation: wave 15s linear infinite;
+        }
+        .animate-wave-slow {
+          animation: wave-slow 20s linear infinite;
+        }
+      `}</style>
     </section>
   )
 }
