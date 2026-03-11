@@ -233,7 +233,7 @@ export function WaveChart({ data }: WaveChartProps) {
       </div>
 
       {/* Day tabs */}
-      <div className="flex gap-1 px-2 py-2 overflow-x-auto">
+      <div className="flex border-b border-border overflow-x-auto">
         {dayGroups.map((g, i) => {
           const isToday = nowIdx >= g.startIdx && nowIdx <= g.endIdx
           const isSelected = selectedDay === i
@@ -241,12 +241,12 @@ export function WaveChart({ data }: WaveChartProps) {
             <button
               key={g.key}
               onClick={() => setSelectedDay(i)}
-              className={`flex-1 min-w-0 px-2 py-2 text-[11px] md:px-3 md:py-2.5 md:text-xs font-semibold text-center whitespace-nowrap transition-colors rounded-md ${
+              className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
                 isSelected
-                  ? "bg-[#2a2a2a] text-foreground border-b-2 border-red-500"
+                  ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
                   : isToday
-                    ? "bg-[#2a2a2a] text-foreground/80 border-b-2 border-red-500/50"
-                    : "bg-[#2a2a2a] text-muted-foreground hover:text-foreground/70"
+                    ? "border-red-500/50 text-foreground/80"
+                    : "border-transparent text-muted-foreground hover:text-foreground/70"
               }`}
             >
               {g.label}
