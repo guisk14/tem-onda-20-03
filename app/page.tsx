@@ -6,6 +6,7 @@ import { BEACH_DATA } from "@/lib/beach-data"
 import type { Beach } from "@/lib/beach-data"
 import { fetchForecast, type ForecastData } from "@/lib/surf-utils"
 import { Topbar } from "@/components/topbar"
+import { HeroSection } from "@/components/hero-section"
 import { BeachSelector } from "@/components/beach-selector"
 import { ForecastCards } from "@/components/forecast-cards"
 import { WaveChart } from "@/components/wave-chart"
@@ -56,7 +57,13 @@ export default function HomePage() {
     <div className="min-h-screen bg-background" style={{ background: "radial-gradient(circle at top center, #1f1f22, #121214)" }}>
       <Topbar />
 
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-6 p-6 lg:flex-row lg:p-8">
+      <HeroSection 
+        currentHeight={data?.currentWaveHeight}
+        currentPeriod={data?.currentWavePeriod}
+        currentWind={data?.currentWindSpeed}
+      />
+
+      <div id="forecast-content" className="mx-auto flex max-w-[1440px] flex-col gap-6 p-6 lg:flex-row lg:p-8">
         {/* Left panel */}
         <div className="flex flex-1 flex-col gap-5 lg:max-w-[55%]">
           <BeachSelector
