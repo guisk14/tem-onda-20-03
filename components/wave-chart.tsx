@@ -218,6 +218,16 @@ export function WaveChart({ data }: WaveChartProps) {
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
+      {/* Title */}
+      <div className="px-4 pt-4 pb-2 md:px-5 md:pt-5">
+        <h3 className="text-lg font-semibold tracking-wide text-foreground text-center md:text-left">
+          Condição das Ondas
+        </h3>
+        <p className="text-[12px] text-muted-foreground/60 mt-1 text-center md:text-left">
+          Previsão de altura, período e vento
+        </p>
+      </div>
+
       {/* Day tabs */}
       <div className="flex border-b border-border overflow-x-auto">
         {dayGroups.map((g, i) => {
