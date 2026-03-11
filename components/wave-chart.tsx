@@ -224,7 +224,7 @@ export function WaveChart({ data }: WaveChartProps) {
           Condição das Ondas
         </h3>
         <p className="text-[12px] text-muted-foreground/60 mt-1 text-center md:text-left">
-          Previsão de altura, período e vento
+          altura, período e vento
         </p>
       </div>
 
