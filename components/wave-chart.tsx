@@ -241,9 +241,9 @@ export function WaveChart({ data }: WaveChartProps) {
             <button
               key={g.key}
               onClick={() => setSelectedDay(i)}
-              className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
+              className={`flex-1 min-w-0 px-1 py-2 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 bg-[rgba(0,0,0,0.3)] ${
                 isSelected
-                  ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
+                  ? "border-red-500 text-foreground"
                   : isToday
                     ? "border-red-500/50 text-foreground/80"
                     : "border-transparent text-muted-foreground hover:text-foreground/70"
