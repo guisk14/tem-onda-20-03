@@ -281,15 +281,19 @@ export function WaveChart({ data }: WaveChartProps) {
           <defs>
             <linearGradient id="waveGradient" x1="0" y1="1" x2="0" y2="0">
               <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
-              <stop offset="100%" stopColor="rgba(56,189,248,0.1)" />
+              <stop offset="50%" stopColor="rgba(56,189,248,0.15)" />
+              <stop offset="100%" stopColor="rgba(56,189,248,0.03)" />
             </linearGradient>
+            <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="rgba(56,189,248,0.6)" />
+            </filter>
           </defs>
 
           {/* Wind area - gray */}
           <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-          {/* Wave layer - gradient blue */}
-          <path d={waveAreaPath2} fill="url(#waveGradient)" />
+          {/* Wave layer - gradient blue with glow */}
+          <path d={waveAreaPath2} fill="url(#waveGradient)" filter="url(#waveGlow)" />
 
           {/* Period line - red */}
           <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
