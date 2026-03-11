@@ -137,7 +137,9 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                 filteredWindData.map((row, i) => (
                   <tr key={i} className="border-t border-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
                     <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-muted-foreground text-center">{row.hour}</td>
-                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-foreground font-semibold text-center">{row.speed} km/h {row.direction}</td>
+                    <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm text-center">
+                      <span className="font-medium text-foreground/80 md:font-semibold md:text-foreground">{row.speed} km/h {row.direction}</span>
+                    </td>
                     <td className="px-2 py-1.5 md:px-4 md:py-3 text-[11px] md:text-sm font-extrabold text-center" style={{ color: row.color }}>
                       {row.type} {row.intensity}
                     </td>
