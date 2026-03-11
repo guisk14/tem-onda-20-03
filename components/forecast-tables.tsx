@@ -99,10 +99,15 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
       {/* Wind Table */}
       <div className="rounded-xl border border-border bg-card p-5">
         {/* Mobile title */}
-        <h3 className="md:hidden mb-4 text-sm font-bold uppercase tracking-wide text-foreground text-center">
-          Vento <span className="text-muted-foreground/50 mx-1">•</span>
-          <span className="text-sky-400" style={{ textShadow: '0 0 8px rgba(56,189,248,0.4)' }}>{beachName}</span>
-        </h3>
+        <div className="md:hidden mb-4 text-center">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-foreground">
+            Vento <span className="text-muted-foreground/50 mx-1">•</span>
+            <span className="text-sky-400" style={{ textShadow: '0 0 8px rgba(56,189,248,0.4)' }}>{beachName}</span>
+          </h3>
+          <p className="text-[12px] text-muted-foreground/60 mt-1">
+            Condição do vento ao longo do dia
+          </p>
+        </div>
         {/* Desktop title */}
         <h3 className="hidden md:block mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
           {"Direção do Vento (Maral / Terral) — "}
