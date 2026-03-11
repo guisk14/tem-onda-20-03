@@ -73,7 +73,10 @@ export function HeroSection() {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 text-balance">
+          <h1 
+            className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 text-balance"
+            style={{ textShadow: '0 6px 30px rgba(0,0,0,0.6)' }}
+          >
             Veja quando as melhores ondas vao chegar
           </h1>
 
