@@ -145,8 +145,16 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
 
       {/* Wave Forecast Table - Daily */}
       <div className="rounded-xl border border-border bg-card p-5">
-        <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
-          Previsao Detalhada de Ondas (Diario)
+        {/* Mobile title */}
+        <h3 className="md:hidden mb-4 text-center">
+          <span className="text-sm font-bold uppercase tracking-wide text-foreground">Previsão de Ondas</span>
+          <span className="ml-1.5 text-[10px] font-medium uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 border border-sky-400/20">
+            Tabela
+          </span>
+        </h3>
+        {/* Desktop title */}
+        <h3 className="hidden md:block mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
+          Previsão Detalhada de Ondas (Diário)
         </h3>
 
         {/* Day selector */}
