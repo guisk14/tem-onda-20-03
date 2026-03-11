@@ -171,33 +171,19 @@ export function ForecastTables({ data, beachName, loading }: ForecastTablesProps
                   </td>
                 </tr>
               ) : (
-                (() => {
-                  // Encontrar a maior altura de onda do dia
-                  const maxHeight = Math.max(...filteredTableData.map(r => r.height))
-                  return filteredTableData.map((row, i) => {
-                    const isBest = row.height === maxHeight
-                    return (
-                      <tr 
-                        key={i} 
-                        className={`border-t border-[rgba(255,255,255,0.03)] transition-colors ${
-                          isBest 
-                            ? "bg-[rgba(56,189,248,0.08)]" 
-                            : "hover:bg-[rgba(255,255,255,0.02)]"
-                        }`}
-                      >
-                        <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{row.time}</td>
-                        <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-sky-400">{formatNum(row.height, 1)} m</td>
-                        <td className="hidden md:table-cell px-4 py-3 text-sm text-foreground">{formatNum(row.period, 1)}</td>
-                        <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
-                          <span className="hidden md:inline">{formatNum(row.direction, 0)}° </span>{degToCompass(row.direction)}
-                        </td>
-                        <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
-                          {Math.round(row.windSpeed)} km/h {degToCompass(row.windDirDeg)}
-                        </td>
-                      </tr>
-                    )
-                  })
-                })()
+                filteredTableData.map((row, i) => (
+                  <tr key={i} className="border-t border-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">{row.time}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm font-bold text-sky-400">{formatNum(row.height, 1)} m</td>
+                    <td className="hidden md:table-cell px-4 py-3 text-sm text-foreground">{formatNum(row.period, 1)}</td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                      <span className="hidden md:inline">{formatNum(row.direction, 0)}° </span>{degToCompass(row.direction)}
+                    </td>
+                    <td className="px-1.5 py-1.5 text-[11px] md:px-4 md:py-3 md:text-sm text-foreground">
+                      {Math.round(row.windSpeed)} km/h {degToCompass(row.windDirDeg)}
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
