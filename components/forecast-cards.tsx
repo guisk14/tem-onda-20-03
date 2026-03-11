@@ -201,7 +201,7 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
         label={CARD_THEMES.vento.label}
         value={`${Math.round(data.currentWindSpeed)}`}
         unit="km/h"
-        subtitle={`${windDir} · Raj. ${Math.round(data.currentWindGust)}`}
+        subtitle={`${windDir} · Raj. ${Math.round(data.currentWindGust)} km`}
         subtitle2={`${data.currentWindType} ${data.currentWindIntensity}`}
         subtitle2Color={data.currentWindColor}
         accentColor={data.currentWindColor}
