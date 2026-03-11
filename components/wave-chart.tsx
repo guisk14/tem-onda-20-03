@@ -241,15 +241,20 @@ export function WaveChart({ data }: WaveChartProps) {
         })}
       </div>
 
-      {/* Day + hour label */}
-      <div className="px-4 pt-3 pb-1">
-        <p className="text-sm text-muted-foreground">
-          {point ? `${dayLabel(point.time)} - ${hourOnly(point.time)}` : ""}
-        </p>
-      </div>
-
       {/* SVG chart */}
-      <div ref={containerRef} className="px-2 pb-1 touch-none">
+      <div ref={containerRef} className="relative px-2 pb-1 pt-3 touch-none">
+        {/* Tooltip showing time near cursor */}
+        {hoveredIdx !== null && point && (
+          <div 
+            className="absolute top-1 px-2 py-0.5 rounded bg-card/90 border border-border/50 text-[10px] md:text-xs text-muted-foreground pointer-events-none z-10 whitespace-nowrap"
+            style={{ 
+              left: `${Math.min(Math.max(activeX + 8, 40), W - 60)}px`,
+              transform: 'translateX(-50%)'
+            }}
+          >
+            {dayLabel(point.time)} - {hourOnly(point.time)}
+          </div>
+        )}
         <svg
           ref={svgRef}
           width={W}
