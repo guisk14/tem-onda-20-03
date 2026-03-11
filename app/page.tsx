@@ -8,6 +8,7 @@ import { fetchForecast, type ForecastData } from "@/lib/surf-utils"
 import { Topbar } from "@/components/topbar"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/hero-section"
+import { HowItWorks } from "@/components/how-it-works"
 import { BeachSelector } from "@/components/beach-selector"
 import { ForecastCards } from "@/components/forecast-cards"
 import { WaveChart } from "@/components/wave-chart"
@@ -59,6 +60,8 @@ export default function HomePage() {
       <Topbar />
 
       <HeroSection />
+
+      <HowItWorks />
 
       <div id="forecast-content" className="mx-auto flex max-w-[1440px] flex-col gap-6 p-6 lg:flex-row lg:p-8">
         {/* Left panel */}
