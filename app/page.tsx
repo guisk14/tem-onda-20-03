@@ -8,6 +8,7 @@ import { fetchForecast, type ForecastData } from "@/lib/surf-utils"
 import { Topbar } from "@/components/topbar"
 import { Footer } from "@/components/footer"
 import { HeroSection } from "@/components/hero-section"
+import { HowItWorks } from "@/components/how-it-works"
 import { BeachSelector } from "@/components/beach-selector"
 import { ForecastCards } from "@/components/forecast-cards"
 import { WaveChart } from "@/components/wave-chart"
@@ -60,6 +61,8 @@ export default function HomePage() {
 
       <HeroSection />
 
+      <HowItWorks />
+
       <div id="forecast-content" className="mx-auto flex max-w-[1440px] flex-col gap-6 p-6 lg:flex-row lg:p-8">
         {/* Left panel */}
         <div className="flex flex-1 flex-col gap-5 lg:max-w-[55%]">
@@ -95,11 +98,14 @@ export default function HomePage() {
 
           <TideTable lat={beach.lat} />
 
-          <SurfMap beach={beach} cityName={cityName} data={data ?? null} />
-
           <p className="text-center text-sm font-semibold text-primary">
             {isLoading ? "Aguardando atualizacao..." : data ? "Atualizado" : "Aguardando atualizacao..."}
           </p>
+        </div>
+
+        {/* Right panel - Map */}
+        <div className="flex-1 lg:sticky lg:top-6 lg:h-[calc(100vh-48px)]">
+          <SurfMap beach={beach} cityName={cityName} data={data ?? null} />
         </div>
       </div>
 
