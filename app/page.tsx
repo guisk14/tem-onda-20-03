@@ -95,14 +95,11 @@ export default function HomePage() {
 
           <TideTable lat={beach.lat} />
 
+          <SurfMap beach={beach} cityName={cityName} data={data ?? null} />
+
           <p className="text-center text-sm font-semibold text-primary">
             {isLoading ? "Aguardando atualizacao..." : data ? "Atualizado" : "Aguardando atualizacao..."}
           </p>
-        </div>
-
-        {/* Right panel - Map */}
-        <div className="flex-1 lg:sticky lg:top-6 lg:h-[calc(100vh-48px)]">
-          <SurfMap beach={beach} cityName={cityName} data={data ?? null} />
         </div>
       </div>
 
