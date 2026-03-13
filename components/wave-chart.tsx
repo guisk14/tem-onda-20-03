@@ -186,6 +186,7 @@ export function WaveChart({ data }: WaveChartProps) {
   // SVG paths
   const windAreaPath = useMemo(() => buildAreaPath(windPoints, baseY), [windPoints, baseY])
   const waveAreaPath2 = useMemo(() => buildAreaPath(wavePoints2, baseY), [wavePoints2, baseY])
+  const waveLinePath = useMemo(() => buildLinePath(wavePoints2), [wavePoints2])
   const periodLinePath = useMemo(() => buildLinePath(periodPoints), [periodPoints])
 
   const nowX = nowIdx * step
@@ -298,6 +299,9 @@ export function WaveChart({ data }: WaveChartProps) {
 
           {/* Wave layer - gradient blue with glow */}
           <path d={waveAreaPath2} fill="url(#waveGradient)" filter="url(#waveGlow)" />
+
+          {/* Wave top line - blue highlight */}
+          <path d={waveLinePath} fill="none" stroke="#38bdf8" strokeWidth={2} opacity={0.9} />
 
           {/* Period line - red */}
           <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
