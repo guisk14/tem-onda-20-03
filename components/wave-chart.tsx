@@ -229,7 +229,7 @@ export function WaveChart({ data }: WaveChartProps) {
           Condição das Ondas
         </h3>
         <p className="text-[12px] text-muted-foreground/[0.65] mt-1">
-          Altura <span className="mx-1 text-muted-foreground/40">•</span> Período <span className="mx-1 text-muted-foreground/40">•</span> Vento
+          Altura <span className="mx-1 text-muted-foreground/40">•</span> Período
         </p>
       </div>
 
@@ -303,17 +303,14 @@ export function WaveChart({ data }: WaveChartProps) {
             </filter>
           </defs>
 
-          {/* Wind area - gray */}
-          <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
-
-          {/* Wave layer - gradient blue */}
+          {/* Wave layer - subtle gradient fill */}
           <path d={waveAreaPath2} fill="url(#waveGradient)" />
 
-          {/* Wave top line - cyan highlight with glow */}
-          <path d={waveLinePath} fill="none" stroke="url(#waveLineGradient)" strokeWidth={2.5} filter="url(#lineGlow)" />
+          {/* Wave top line - bright cyan with glow */}
+          <path d={waveLinePath} fill="none" stroke="#67d4fc" strokeWidth={2} filter="url(#lineGlow)" />
 
-          {/* Period line - red */}
-          <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
+          {/* Period line - red (subtle) */}
+          <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={1.5} opacity={0.6} />
 
           {/* Day separator lines */}
           {dayGroups.slice(1).map((g, i) => (
@@ -342,32 +339,14 @@ export function WaveChart({ data }: WaveChartProps) {
                 strokeWidth={1.5}
                 opacity={0.8}
               />
-              {/* Wave dot */}
+              {/* Wave dot on the line */}
               <circle
                 cx={activeX}
                 cy={interpY(wavePoints2, activeX)}
                 r={4}
-                fill="#5bb8d4"
+                fill="#67d4fc"
                 stroke="#fff"
                 strokeWidth={2}
-              />
-              {/* Period dot */}
-              <circle
-                cx={activeX}
-                cy={interpY(periodPoints, activeX)}
-                r={3}
-                fill="#dc2626"
-                stroke="#fff"
-                strokeWidth={1.5}
-              />
-              {/* Wind dot */}
-              <circle
-                cx={activeX}
-                cy={interpY(windPoints, activeX)}
-                r={3}
-                fill="#9ca3af"
-                stroke="#fff"
-                strokeWidth={1.5}
               />
             </>
           )}
@@ -375,18 +354,14 @@ export function WaveChart({ data }: WaveChartProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-2 px-2 pb-1 md:gap-4 md:px-4 md:pb-2">
-        <div className="flex items-center gap-1">
-          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
-          <span className="text-[8px] md:text-[10px] text-muted-foreground">Altura</span>
+      <div className="flex items-center justify-center gap-3 px-2 pb-1 md:gap-5 md:px-4 md:pb-2">
+        <div className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-0.5 md:w-4 rounded-full" style={{ backgroundColor: "#67d4fc" }} />
+          <span className="text-[9px] md:text-[11px] text-muted-foreground">Altura</span>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
-          <span className="text-[8px] md:text-[10px] text-muted-foreground">Vento</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <span className="inline-block w-2 h-0.5 md:w-3 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
-          <span className="text-[8px] md:text-[10px] text-muted-foreground">Periodo</span>
+        <div className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-0.5 md:w-4 rounded-full" style={{ backgroundColor: "#dc2626" }} />
+          <span className="text-[9px] md:text-[11px] text-muted-foreground">Periodo</span>
         </div>
       </div>
 
