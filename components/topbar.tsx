@@ -44,10 +44,11 @@ export function Topbar() {
         }`}>
           <Waves className={`text-primary transition-all duration-300 ${scrolled ? "h-4 w-4" : "h-5 w-5"}`} />
         </div>
-        <h1 className={`font-extrabold uppercase tracking-tight text-foreground transition-all duration-300 ${
+        <h1 className={`font-extrabold uppercase tracking-tight transition-all duration-300 ${
           scrolled ? "text-base" : "text-lg"
         }`}>
-          TEM ONDA
+          <span className="text-white">TEM</span>{" "}
+          <span className="text-primary">ONDA</span>
         </h1>
       </div>
 
