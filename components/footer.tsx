@@ -5,7 +5,7 @@ const footerLinks = [
     title: "Navegacao",
     links: [
       { label: "Inicio", href: "/" },
-      { label: "Previsao", href: "#" },
+      { label: "Sobre", href: "/sobre" },
       { label: "Comunidade", href: "/comunidade" },
       { label: "Contato", href: "/contato" },
     ],
@@ -13,7 +13,7 @@ const footerLinks = [
   {
     title: "Recursos",
     links: [
-      { label: "Como funciona", href: "#" },
+      { label: "FAQ", href: "/faq" },
       { label: "Dicas de surf", href: "#" },
       { label: "Mapa de praias", href: "#" },
       { label: "Alertas", href: "#" },
@@ -23,8 +23,8 @@ const footerLinks = [
     title: "Legal",
     links: [
       { label: "Termos de uso", href: "/termos" },
-      { label: "Privacidade", href: "#" },
-      { label: "Cookies", href: "#" },
+      { label: "Privacidade", href: "/privacidade" },
+      { label: "Cookies", href: "/cookies" },
     ],
   },
 ]
