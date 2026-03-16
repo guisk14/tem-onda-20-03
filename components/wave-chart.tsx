@@ -229,37 +229,41 @@ export function WaveChart({ data }: WaveChartProps) {
           Condição das Ondas
         </h3>
         <p className="text-[12px] text-muted-foreground/[0.65] mt-1">
-          Deslize ou mova o mouse no grafico para ver os detalhes
+          Altura <span className="mx-1 text-muted-foreground/40">•</span> Período <span className="mx-1 text-muted-foreground/40">•</span> Vento
         </p>
       </div>
 
-      {/* SVG chart with integrated day headers */}
-      <div ref={containerRef} className="relative touch-none bg-[#1a1a1f]">
-        {/* Day headers inline */}
-        <div className="absolute top-0 left-0 right-0 flex z-10 border-b border-[rgba(255,255,255,0.08)]" style={{ height: '32px' }}>
-          {dayGroups.map((g, i) => {
-            const startX = (g.startIdx / (data.length - 1)) * 100
-            const endX = ((g.endIdx + 1) / (data.length - 1)) * 100
-            const width = endX - startX
-            return (
-              <div
-                key={g.key}
-                className="flex items-center justify-center text-[11px] md:text-xs font-bold text-gray-300 uppercase tracking-wide border-r border-[rgba(255,255,255,0.08)] last:border-r-0 bg-[#252529]"
-                style={{ width: `${width}%` }}
-              >
-                {g.label.toUpperCase()}
-              </div>
-            )
-          })}
-        </div>
+      {/* Day tabs */}
+      <div className="flex border-b border-border overflow-x-auto">
+        {dayGroups.map((g, i) => {
+          const isToday = nowIdx >= g.startIdx && nowIdx <= g.endIdx
+          const isSelected = selectedDay === i
+          return (
+            <button
+              key={g.key}
+              onClick={() => setSelectedDay(i)}
+              className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
+                isSelected
+                  ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
+                  : isToday
+                    ? "border-red-500/50 text-foreground/80"
+                    : "border-transparent text-muted-foreground hover:text-foreground/70"
+              }`}
+            >
+              {g.label}
+            </button>
+          )
+        })}
+      </div>
 
-        {/* Tooltip showing time near cursor - pill style */}
+      {/* SVG chart */}
+      <div ref={containerRef} className="relative px-2 pb-1 pt-3 touch-none">
+        {/* Tooltip showing time near cursor */}
         {hoveredIdx !== null && point && (
           <div 
-            className="absolute px-2 py-0.5 rounded bg-[#5ec8e8] text-[10px] md:text-[11px] font-bold text-[#1a1a1f] pointer-events-none z-20 whitespace-nowrap"
+            className="absolute top-1 px-2 py-0.5 rounded bg-card/90 border border-border/50 text-[10px] md:text-xs text-muted-foreground pointer-events-none z-10 whitespace-nowrap"
             style={{ 
-              left: `${Math.min(Math.max(activeX, 25), W - 25)}px`,
-              top: '48px',
+              left: `${Math.min(Math.max(activeX + 8, 40), W - 60)}px`,
               transform: 'translateX(-50%)'
             }}
           >
@@ -269,71 +273,113 @@ export function WaveChart({ data }: WaveChartProps) {
         <svg
           ref={svgRef}
           width={W}
-          height={H + 32}
-          viewBox={`0 0 ${W} ${H + 32}`}
+          height={H}
+          viewBox={`0 0 ${W} ${H}`}
           className="w-full cursor-crosshair select-none"
           onMouseMove={onMouseMove}
           onMouseLeave={onPointerLeave}
           onTouchMove={onTouchMove}
           onTouchEnd={onPointerLeave}
           preserveAspectRatio="none"
-          style={{ marginTop: '0' }}
         >
           {/* Gradient definition for wave */}
           <defs>
-            <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(94,200,232,0.30)" />
-              <stop offset="60%" stopColor="rgba(94,200,232,0.08)" />
-              <stop offset="100%" stopColor="rgba(26,26,31,0.95)" />
+            <linearGradient id="waveGradient" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
+              <stop offset="50%" stopColor="rgba(56,189,248,0.15)" />
+              <stop offset="100%" stopColor="rgba(56,189,248,0.03)" />
             </linearGradient>
-            <filter id="lineGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="rgba(56,189,248,0.6)" />
             </filter>
           </defs>
 
-          {/* Offset for header */}
-          <g transform="translate(0, 32)">
-            {/* Day separator lines */}
-            {dayGroups.slice(1).map((g, i) => (
-              <line
-                key={`sep-${i}`}
-                x1={g.startIdx * step}
-                y1={0}
-                x2={g.startIdx * step}
-                y2={H}
-                stroke="rgba(255,255,255,0.06)"
-                strokeWidth={1}
-              />
-            ))}
+          {/* Wind area - gray */}
+          <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-            {/* Wave layer - subtle gradient fill */}
-            <path d={waveAreaPath2} fill="url(#waveGradient)" />
+          {/* Wave layer - gradient blue with glow */}
+          <path d={waveAreaPath2} fill="url(#waveGradient)" filter="url(#waveGlow)" />
 
-            {/* Wave top line - bright cyan with glow */}
-            <path d={waveLinePath} fill="none" stroke="#6dd5ed" strokeWidth={2} filter="url(#lineGlow)" />
-            <path d={waveLinePath} fill="none" stroke="#ffffff" strokeWidth={0.5} opacity={0.4} />
+          {/* Wave top line - blue highlight */}
+          <path d={waveLinePath} fill="none" stroke="#38bdf8" strokeWidth={2} opacity={0.9} />
+
+          {/* Period line - red */}
+          <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
+
+          {/* Day separator lines */}
+          {dayGroups.slice(1).map((g, i) => (
+            <line
+              key={`sep-${i}`}
+              x1={g.startIdx * step}
+              y1={0}
+              x2={g.startIdx * step}
+              y2={H}
+              stroke="rgba(255,255,255,0.05)"
+              strokeWidth={1}
+            />
+          ))}
+
+          {/* Now marker removed */}
 
           {/* Interactive hover line */}
-            {hoveredIdx !== null && (
+          {hoveredIdx !== null && (
+            <>
               <line
                 x1={activeX}
                 y1={0}
                 x2={activeX}
                 y2={H}
-                stroke="#5ec8e8"
+                stroke="#dc2626"
+                strokeWidth={1.5}
+                opacity={0.7}
+              />
+              {/* Wave dot */}
+              <circle
+                cx={activeX}
+                cy={interpY(wavePoints2, activeX)}
+                r={4}
+                fill="#5bb8d4"
+                stroke="#fff"
+                strokeWidth={2}
+              />
+              {/* Period dot */}
+              <circle
+                cx={activeX}
+                cy={interpY(periodPoints, activeX)}
+                r={3}
+                fill="#dc2626"
+                stroke="#fff"
                 strokeWidth={1.5}
               />
-            )}
-          </g>
+              {/* Wind dot */}
+              <circle
+                cx={activeX}
+                cy={interpY(windPoints, activeX)}
+                r={3}
+                fill="#9ca3af"
+                stroke="#fff"
+                strokeWidth={1.5}
+              />
+            </>
+          )}
         </svg>
       </div>
 
-      
+      {/* Legend */}
+      <div className="flex items-center justify-center gap-2 px-2 pb-1 md:gap-4 md:px-4 md:pb-2">
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Altura</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Vento</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-0.5 md:w-3 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Periodo</span>
+        </div>
+      </div>
 
       {/* Bottom metrics */}
       <div className="flex items-center justify-between border-t border-border px-1 py-2 gap-0.5 md:px-2 md:py-3 md:gap-1">
@@ -351,9 +397,9 @@ export function WaveChart({ data }: WaveChartProps) {
         <MetricItem
           label="PERIODO"
           value={`${formatNum(point?.wavePeriod, 1)} s`}
-          color="text-sky-400"
+          color="text-red-400"
           icon={
-            <svg width="12" height="12" viewBox="0 0 24 24" className="text-sky-400 md:w-4 md:h-4">
+            <svg width="12" height="12" viewBox="0 0 24 24" className="text-red-400 md:w-4 md:h-4">
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" fill="none" />
               <path d="M12 7v5l3 3" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
