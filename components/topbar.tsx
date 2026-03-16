@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { Waves, Menu, X } from "lucide-react"
 
 const navLinks = [
-  { label: "Inicio", href: "/", active: true },
-  { label: "Previsao", href: "#" },
+  { label: "Inicio", href: "/" },
+  { label: "Previsao", href: "/#forecast-content" },
   { label: "Comunidade", href: "/comunidade" },
   { label: "Contato", href: "/contato" },
 ]
@@ -13,6 +14,7 @@ const navLinks = [
 export function Topbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,23 +63,29 @@ export function Topbar() {
         } lg:relative lg:top-auto lg:flex lg:bg-transparent lg:border-none lg:flex-1 lg:justify-center`}
       >
         <ul className="flex flex-col items-center lg:flex-row lg:gap-8">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`block px-6 py-4 text-center lg:py-0 lg:px-0 text-sm font-semibold uppercase transition-colors ${
-                  link.active
-                    ? "text-primary lg:text-primary"
-                    : "text-muted-foreground hover:text-primary"
-                } lg:border-none ${
-                  link.active ? "border-b-[3px] border-primary bg-primary/10 lg:bg-transparent lg:border-b-0" : "border-b-[3px] border-transparent"
-                }`}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = link.href === "/" 
+              ? pathname === "/" 
+              : pathname.startsWith(link.href.split("#")[0]) && link.href !== "/"
+            
+            return (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`block px-6 py-4 text-center lg:py-0 lg:px-0 text-sm font-semibold uppercase transition-colors ${
+                    isActive
+                      ? "text-primary lg:text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  } lg:border-none ${
+                    isActive ? "border-b-[3px] border-primary bg-primary/10 lg:bg-transparent lg:border-b-0" : "border-b-[3px] border-transparent"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </li>
+            )
+          })}
         </ul>
       </nav>
     </header>
