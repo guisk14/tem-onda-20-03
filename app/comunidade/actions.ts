@@ -38,12 +38,10 @@ export async function getPosts(): Promise<Post[]> {
   
   const { data: { user } } = await supabase.auth.getUser()
   
+  // Get posts without join
   const { data: posts, error } = await supabase
     .from("community_posts")
-    .select(`
-      *,
-      profiles:user_id (username, full_name, avatar_url)
-    `)
+    .select("*")
     .order("created_at", { ascending: false })
     .limit(50)
 
@@ -52,22 +50,37 @@ export async function getPosts(): Promise<Post[]> {
     return []
   }
 
+  if (!posts || posts.length === 0) {
+    return []
+  }
+
+  // Get unique user IDs
+  const userIds = [...new Set(posts.map(p => p.user_id))]
+  
+  // Fetch profiles separately
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("id, username, full_name, avatar_url")
+    .in("id", userIds)
+
+  const profilesMap = new Map(profiles?.map(p => [p.id, p]) || [])
+
   // Check if current user has liked each post
-  if (user && posts) {
+  let likedPostIds = new Set<string>()
+  if (user) {
     const { data: likes } = await supabase
       .from("post_likes")
       .select("post_id")
       .eq("user_id", user.id)
 
-    const likedPostIds = new Set(likes?.map(l => l.post_id) || [])
-    
-    return posts.map(post => ({
-      ...post,
-      user_has_liked: likedPostIds.has(post.id)
-    }))
+    likedPostIds = new Set(likes?.map(l => l.post_id) || [])
   }
 
-  return posts || []
+  return posts.map(post => ({
+    ...post,
+    profiles: profilesMap.get(post.user_id) || null,
+    user_has_liked: likedPostIds.has(post.id)
+  }))
 }
 
 export async function createPost(formData: FormData) {
@@ -182,12 +195,10 @@ export async function addComment(postId: string, content: string) {
 export async function getComments(postId: string): Promise<Comment[]> {
   const supabase = await createClient()
   
-  const { data, error } = await supabase
+  // Get comments without join
+  const { data: comments, error } = await supabase
     .from("post_comments")
-    .select(`
-      *,
-      profiles:user_id (username, full_name, avatar_url)
-    `)
+    .select("*")
     .eq("post_id", postId)
     .order("created_at", { ascending: true })
 
@@ -196,7 +207,25 @@ export async function getComments(postId: string): Promise<Comment[]> {
     return []
   }
 
-  return data || []
+  if (!comments || comments.length === 0) {
+    return []
+  }
+
+  // Get unique user IDs
+  const userIds = [...new Set(comments.map(c => c.user_id))]
+  
+  // Fetch profiles separately
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("id, username, full_name, avatar_url")
+    .in("id", userIds)
+
+  const profilesMap = new Map(profiles?.map(p => [p.id, p]) || [])
+
+  return comments.map(comment => ({
+    ...comment,
+    profiles: profilesMap.get(comment.user_id) || null
+  }))
 }
 
 export async function deletePost(postId: string) {
