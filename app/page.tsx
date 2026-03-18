@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useCallback, useMemo, useEffect } from "react"
+import { useState, useCallback, useMemo } from "react"
+import dynamic from "next/dynamic"
 import useSWR from "swr"
 import { BEACH_DATA } from "@/lib/beach-data"
 import type { Beach } from "@/lib/beach-data"
@@ -12,9 +13,14 @@ import { BeachSelector } from "@/components/beach-selector"
 import { ForecastCards } from "@/components/forecast-cards"
 import { WaveChart } from "@/components/wave-chart"
 import { ForecastTables } from "@/components/forecast-tables"
-import { TideTable } from "@/components/tide-table"
 import { SurfMap } from "@/components/surf-map"
 import { Loader2 } from "lucide-react"
+
+// Dynamic import with SSR disabled to prevent hydration mismatch
+const TideTable = dynamic(() => import("@/components/tide-table").then(mod => ({ default: mod.TideTable })), { 
+  ssr: false,
+  loading: () => <div className="h-64 rounded-xl border border-border bg-card animate-pulse" />
+})
 
 function getBeach(cityId: string, beachId: string): Beach {
   const city = BEACH_DATA.find((c) => c.cityId === cityId) ?? BEACH_DATA[0]

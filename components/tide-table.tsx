@@ -102,8 +102,7 @@ interface TideTableProps {
 }
 
 export function TideTable({ lat }: TideTableProps) {
-  const { events: tides, curve } = useMemo(() => getTodayTides(), [])
-
+  const [tideData, setTideData] = useState<{ events: TideEvent[]; curve: { x: number; y: number }[] } | null>(null)
   const [currentHour, setCurrentHour] = useState(12)
   const [mounted, setMounted] = useState(false)
   const [countdown, setCountdown] = useState({ hours: 0, minutes: 0 })
@@ -118,6 +117,9 @@ export function TideTable({ lat }: TideTableProps) {
   }
 
   useEffect(() => {
+    // Initialize tide data only on client to avoid hydration mismatch
+    setTideData(getTodayTides())
+    
     const updateTime = () => {
       const now = new Date()
       setCurrentHour(now.getHours() + now.getMinutes() / 60)
@@ -131,15 +133,19 @@ export function TideTable({ lat }: TideTableProps) {
     return () => clearInterval(interval)
   }, [])
 
-  // Update countdown when currentHour or tides change
+  // Update countdown when currentHour or tideData change
   useEffect(() => {
-    if (mounted && tides.length > 0) {
-      const next = tides.find(t => t.hour > currentHour) || tides[0]
+    if (mounted && tideData && tideData.events.length > 0) {
+      const next = tideData.events.find(t => t.hour > currentHour) || tideData.events[0]
       setCountdown(getCountdown(next.hour, currentHour))
     }
-  }, [currentHour, mounted, tides])
+  }, [currentHour, mounted, tideData])
 
-  if (!tides.length) return null
+  // Wait for client-side mount and data to prevent hydration mismatch
+  if (!mounted || !tideData || !tideData.events.length) return null
+
+  const tides = tideData.events
+  const curve = tideData.curve
 
   // SVG chart dimensions - altura maior para melhor legibilidade
   const svgW = 400
