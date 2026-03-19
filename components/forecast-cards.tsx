@@ -69,7 +69,7 @@ const CARD_THEMES = {
 
 function CardSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border">
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border [.light_&]:shadow-sm">
       <div className="h-8 w-8 rounded-full bg-muted animate-pulse mb-3" />
       <div className="h-3 w-16 rounded bg-muted animate-pulse mb-3" />
       <div className="h-10 w-24 rounded bg-muted animate-pulse mb-2" />
@@ -92,7 +92,7 @@ interface MetricCardProps {
 function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Color, accentColor, glowBg }: MetricCardProps) {
   return (
     <div
-      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border"
+      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border [.light_&]:shadow-sm [.light_&]:hover:shadow-md"
       style={{
         borderTop: `3px solid ${accentColor}`,
       }}

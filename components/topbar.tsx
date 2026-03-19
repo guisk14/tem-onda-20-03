@@ -91,8 +91,11 @@ export function Topbar() {
 
   return (
     <header 
-      className={`sticky top-0 z-50 flex items-center justify-between backdrop-blur-[10px] bg-[rgba(10,15,25,0.6)] px-6 border-b border-[rgba(255,255,255,0.06)] lg:px-8 lg:justify-start lg:gap-8 transition-all duration-300 ${
-        scrolled ? "py-3" : "py-4"
+      className={`sticky top-0 z-50 flex items-center justify-between backdrop-blur-xl px-6 border-b lg:px-8 lg:justify-start lg:gap-8 transition-all duration-300 
+        bg-[rgba(10,15,25,0.75)] border-[rgba(255,255,255,0.06)]
+        dark:bg-[rgba(10,15,25,0.75)] dark:border-[rgba(255,255,255,0.06)]
+        [.light_&]:bg-white/90 [.light_&]:border-slate-200/60 [.light_&]:shadow-sm
+        ${scrolled ? "py-3" : "py-4"
       }`}
     >
       <div className="flex items-center gap-3">
@@ -104,14 +107,16 @@ export function Topbar() {
         <h1 className={`font-extrabold uppercase tracking-tight transition-all duration-300 ${
           scrolled ? "text-base" : "text-lg"
         }`}>
-          <span className="text-white">TEM</span>{" "}
+          <span className="text-foreground">TEM</span>{" "}
           <span className="text-primary">ONDA</span>
         </h1>
       </div>
 
       {/* Menu Button - Mobile only */}
       <button
-        className="flex items-center justify-center w-[42px] h-[42px] rounded-xl bg-white/5 lg:hidden ml-auto transition-colors hover:bg-white/10"
+        className="flex items-center justify-center w-[42px] h-[42px] rounded-xl lg:hidden ml-auto transition-colors
+          bg-white/5 hover:bg-white/10
+          [.light_&]:bg-slate-100 [.light_&]:hover:bg-slate-200"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Menu"
       >
@@ -125,7 +130,7 @@ export function Topbar() {
       <nav
         className={`${
           menuOpen
-            ? "absolute top-full left-0 right-0 flex flex-col items-center bg-[rgba(24,24,27,0.95)] backdrop-blur-xl border-b border-border"
+            ? "absolute top-full left-0 right-0 flex flex-col items-center backdrop-blur-xl border-b border-border bg-[rgba(24,24,27,0.95)] [.light_&]:bg-white/98 [.light_&]:border-slate-200"
             : "hidden"
         } lg:relative lg:top-auto lg:flex lg:bg-transparent lg:border-none lg:flex-1 lg:justify-center`}
       >
@@ -171,7 +176,9 @@ export function Topbar() {
         <button
           onClick={() => setNotifOpen((v) => !v)}
           aria-label="Notificações"
-          className="relative flex items-center justify-center w-[42px] h-[42px] rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+          className="relative flex items-center justify-center w-[42px] h-[42px] rounded-xl transition-colors
+            bg-white/5 hover:bg-white/10
+            [.light_&]:bg-slate-100 [.light_&]:hover:bg-slate-200"
         >
           <Bell className="h-5 w-5 text-foreground" />
           {unreadCount > 0 && (
@@ -183,9 +190,11 @@ export function Topbar() {
 
         {/* Dropdown */}
         {notifOpen && (
-          <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 rounded-2xl border border-white/10 bg-[rgba(18,18,20,0.95)] shadow-2xl backdrop-blur-xl overflow-hidden">
+          <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 rounded-2xl border shadow-2xl backdrop-blur-xl overflow-hidden
+            border-white/10 bg-[rgba(18,18,20,0.95)]
+            [.light_&]:border-slate-200 [.light_&]:bg-white [.light_&]:shadow-lg">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
+            <div className="flex items-center justify-between border-b px-4 py-3 border-white/8 [.light_&]:border-slate-100">
               <span className="text-sm font-semibold text-foreground">Notificações</span>
               {unreadCount > 0 && (
                 <button
@@ -199,20 +208,20 @@ export function Topbar() {
             </div>
 
             {/* List */}
-            <ul className="divide-y divide-white/6 max-h-72 overflow-y-auto">
+            <ul className="divide-y divide-white/6 [.light_&]:divide-slate-100 max-h-72 overflow-y-auto">
               {notifications.map((notif) => (
                 <li
                   key={notif.id}
-                  className={`flex gap-3 px-4 py-3 transition-colors hover:bg-white/5 cursor-pointer ${
-                    !notif.read ? "bg-primary/5" : ""
-                  }`}
+                  className={`flex gap-3 px-4 py-3 transition-colors cursor-pointer
+                    hover:bg-white/5 [.light_&]:hover:bg-slate-50
+                    ${!notif.read ? "bg-primary/5 [.light_&]:bg-sky-50" : ""}`}
                   onClick={() =>
                     setNotifications((prev) =>
                       prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
                     )
                   }
                 >
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/8">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/8 [.light_&]:bg-slate-100">
                     {notif.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -232,7 +241,7 @@ export function Topbar() {
             </ul>
 
             {/* Footer */}
-            <div className="border-t border-white/8 px-4 py-3 text-center">
+            <div className="border-t px-4 py-3 text-center border-white/8 [.light_&]:border-slate-100">
               <button className="text-xs font-semibold text-primary hover:text-primary/80 transition-colors">
                 Ver todas as notificações
               </button>

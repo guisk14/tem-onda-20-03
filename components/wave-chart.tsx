@@ -209,7 +209,7 @@ export function WaveChart({ data }: WaveChartProps) {
 
   if (!data.length) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground">
+      <div className="flex h-64 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground [.light_&]:shadow-sm">
         Carregando grafico...
       </div>
     )
@@ -218,7 +218,7 @@ export function WaveChart({ data }: WaveChartProps) {
   const point = data[activeIdx]
 
   return (
-    <div className="rounded-xl border border-border bg-card overflow-hidden">
+    <div className="rounded-xl border border-border bg-card overflow-hidden [.light_&]:shadow-sm">
       {/* Title */}
       <div className="px-4 pt-4 pb-2 md:px-5 md:pt-5 text-center md:text-left">
         <h3 className="text-[18px] font-semibold tracking-wide text-foreground flex items-center justify-center md:justify-start gap-2">
@@ -244,9 +244,9 @@ export function WaveChart({ data }: WaveChartProps) {
               onClick={() => setSelectedDay(i)}
               className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
                 isSelected
-                  ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
+                  ? "border-primary text-foreground bg-primary/5"
                   : isToday
-                    ? "border-red-500/50 text-foreground/80"
+                    ? "border-primary/50 text-foreground/80"
                     : "border-transparent text-muted-foreground hover:text-foreground/70"
               }`}
             >
