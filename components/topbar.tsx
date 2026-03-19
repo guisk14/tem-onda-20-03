@@ -104,7 +104,7 @@ export function Topbar() {
         <h1 className={`font-extrabold uppercase tracking-tight transition-all duration-300 ${
           scrolled ? "text-base" : "text-lg"
         }`}>
-          <span className="text-white">TEM</span>{" "}
+          <span className="text-foreground">TEM</span>{" "}
           <span className="text-primary">ONDA</span>
         </h1>
       </div>

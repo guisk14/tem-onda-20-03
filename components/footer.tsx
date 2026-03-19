@@ -74,7 +74,7 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-8 h-px bg-[rgba(255,255,255,0.06)]" />
+        <div className="my-8 h-px bg-[rgba(255,255,255,0.06)] [.light_&]:bg-slate-200" />
 
         {/* Copyright */}
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
