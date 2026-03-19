@@ -115,19 +115,17 @@ export function BeachSelector({
   }, [])
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <div className="p-1.5 rounded-lg bg-[#00d4ff]/10">
-          <MapPin className="h-4 w-4 text-[#00d4ff]" />
-        </div>
-        <h2 className="text-xs font-black uppercase tracking-wider text-white/50">
+        <MapPin className="h-4 w-4 text-primary" />
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Selecionar Pico
         </h2>
       </div>
       
       <div className="relative">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             ref={inputRef}
             type="text"
@@ -139,14 +137,14 @@ export function BeachSelector({
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder={selectedBeach ? selectedBeach.fullName : "Pesquisar praia..."}
-            className="w-full rounded-2xl border border-white/5 bg-[rgba(20,20,30,0.6)] backdrop-blur-xl pl-11 pr-4 py-3 text-sm font-bold text-foreground placeholder:text-white/30 transition-all focus:outline-none focus:ring-2 focus:ring-[#00d4ff]/30 focus:border-[#00d4ff]/50"
+            className="w-full rounded-lg border border-border bg-secondary pl-10 pr-4 py-2.5 text-sm font-medium text-foreground placeholder:text-muted-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
         </div>
 
         {isOpen && (
           <ul
             ref={listRef}
-            className="absolute z-50 mt-2 w-full max-h-72 overflow-auto rounded-2xl border border-white/5 bg-[rgba(10,10,15,0.98)] backdrop-blur-2xl shadow-2xl"
+            className="absolute z-50 mt-2 w-full max-h-64 overflow-auto rounded-lg border border-border bg-popover shadow-xl"
           >
             {filteredBeaches.length > 0 ? (
               filteredBeaches.map((beach, index) => (
@@ -154,27 +152,25 @@ export function BeachSelector({
                   key={`${beach.cityId}-${beach.id}`}
                   onClick={() => handleSelect(beach)}
                   onMouseEnter={() => setHighlightedIndex(index)}
-                  className={`flex items-center gap-3 px-4 py-3.5 cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
                     index === highlightedIndex
-                      ? "bg-[#00d4ff]/10 text-foreground"
-                      : "text-foreground hover:bg-white/5"
+                      ? "bg-primary/10 text-foreground"
+                      : "text-foreground hover:bg-secondary"
                   } ${
                     beach.id === selectedBeachId && beach.cityId === selectedCityId
-                      ? "border-l-3 border-l-[#00d4ff]"
+                      ? "border-l-2 border-l-primary"
                       : ""
                   }`}
                 >
-                  <div className="p-1.5 rounded-lg bg-white/5">
-                    <MapPin className="h-4 w-4 text-[#00d4ff] shrink-0" />
-                  </div>
+                  <MapPin className="h-4 w-4 text-primary shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold">{beach.name}</span>
-                    <span className="text-xs text-white/40 font-medium">{beach.cityName}</span>
+                    <span className="text-sm font-semibold">{beach.name}</span>
+                    <span className="text-xs text-muted-foreground">{beach.cityName}</span>
                   </div>
                 </li>
               ))
             ) : (
-              <li className="px-4 py-4 text-sm text-white/40 text-center font-medium">
+              <li className="px-4 py-3 text-sm text-muted-foreground text-center">
                 Nenhuma praia encontrada
               </li>
             )}

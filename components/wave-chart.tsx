@@ -209,7 +209,7 @@ export function WaveChart({ data }: WaveChartProps) {
 
   if (!data.length) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-3xl border border-white/5 bg-[rgba(20,20,30,0.6)] backdrop-blur-xl text-white/40 font-medium">
+      <div className="flex h-64 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground">
         Carregando grafico...
       </div>
     )
@@ -218,25 +218,23 @@ export function WaveChart({ data }: WaveChartProps) {
   const point = data[activeIdx]
 
   return (
-    <div className="rounded-3xl border border-white/5 bg-[rgba(20,20,30,0.6)] backdrop-blur-xl overflow-hidden">
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
       {/* Title */}
-      <div className="px-5 pt-5 pb-3 md:px-6 md:pt-6 text-center md:text-left">
-        <h3 className="text-lg md:text-xl font-black tracking-tight text-foreground flex items-center justify-center md:justify-start gap-2">
-          <div className="p-1.5 rounded-lg bg-[#00d4ff]/10">
-            <svg width="18" height="18" viewBox="0 0 24 24" className="text-[#00d4ff]">
-              <path d="M2 12c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
-              <path d="M2 18c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
-            </svg>
-          </div>
-          Condições das Ondas
+      <div className="px-4 pt-4 pb-2 md:px-5 md:pt-5 text-center md:text-left">
+        <h3 className="text-[18px] font-semibold tracking-wide text-foreground flex items-center justify-center md:justify-start gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" className="text-sky-400">
+            <path d="M2 12c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M2 18c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
+          </svg>
+          Condição das Ondas
         </h3>
-        <p className="text-xs text-white/40 mt-2 font-medium">
-          Altura <span className="mx-1.5 text-white/20">•</span> Período <span className="mx-1.5 text-white/20">•</span> Vento
+        <p className="text-[12px] text-muted-foreground/[0.65] mt-1">
+          Altura <span className="mx-1 text-muted-foreground/40">•</span> Período <span className="mx-1 text-muted-foreground/40">•</span> Vento
         </p>
       </div>
 
       {/* Day tabs */}
-      <div className="flex border-b border-white/5 overflow-x-auto px-2">
+      <div className="flex border-b border-border overflow-x-auto">
         {dayGroups.map((g, i) => {
           const isToday = nowIdx >= g.startIdx && nowIdx <= g.endIdx
           const isSelected = selectedDay === i
@@ -244,12 +242,12 @@ export function WaveChart({ data }: WaveChartProps) {
             <button
               key={g.key}
               onClick={() => setSelectedDay(i)}
-              className={`flex-1 min-w-0 px-2 py-2.5 text-[10px] md:px-3 md:py-3 md:text-xs font-bold text-center whitespace-nowrap transition-all rounded-t-xl ${
+              className={`flex-1 min-w-0 px-1 py-1.5 text-[10px] md:px-2 md:py-2.5 md:text-xs font-bold text-center whitespace-nowrap transition-colors border-b-2 ${
                 isSelected
-                  ? "bg-[#00d4ff]/10 text-[#00d4ff] border-b-2 border-[#00d4ff]"
+                  ? "border-red-500 text-foreground bg-[rgba(255,255,255,0.03)]"
                   : isToday
-                    ? "text-[#ff3d7f]/80 border-b-2 border-[#ff3d7f]/50"
-                    : "text-white/40 hover:text-white/60 hover:bg-white/5"
+                    ? "border-red-500/50 text-foreground/80"
+                    : "border-transparent text-muted-foreground hover:text-foreground/70"
               }`}
             >
               {g.label}
@@ -284,29 +282,29 @@ export function WaveChart({ data }: WaveChartProps) {
           onTouchEnd={onPointerLeave}
           preserveAspectRatio="none"
         >
-          {/* Gradient definition for wave - Gen Z colors */}
+          {/* Gradient definition for wave */}
           <defs>
             <linearGradient id="waveGradient" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="rgba(0,212,255,0.4)" />
-              <stop offset="50%" stopColor="rgba(0,212,255,0.15)" />
-              <stop offset="100%" stopColor="rgba(168,85,247,0.05)" />
+              <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
+              <stop offset="50%" stopColor="rgba(56,189,248,0.15)" />
+              <stop offset="100%" stopColor="rgba(56,189,248,0.03)" />
             </linearGradient>
             <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="rgba(0,212,255,0.5)" />
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="rgba(56,189,248,0.6)" />
             </filter>
           </defs>
 
-          {/* Wind area - subtle */}
-          <path d={windAreaPath} fill="#84cc16" opacity={0.25} />
+          {/* Wind area - gray */}
+          <path d={windAreaPath} fill="#9ca3af" opacity={0.35} />
 
-          {/* Wave layer - gradient cyan with glow */}
+          {/* Wave layer - gradient blue with glow */}
           <path d={waveAreaPath2} fill="url(#waveGradient)" filter="url(#waveGlow)" />
 
-          {/* Wave top line - cyan highlight */}
-          <path d={waveLinePath} fill="none" stroke="#00d4ff" strokeWidth={2.5} opacity={0.9} />
+          {/* Wave top line - blue highlight */}
+          <path d={waveLinePath} fill="none" stroke="#38bdf8" strokeWidth={2} opacity={0.9} />
 
-          {/* Period line - pink */}
-          <path d={periodLinePath} fill="none" stroke="#ff3d7f" strokeWidth={2} opacity={0.8} />
+          {/* Period line - red */}
+          <path d={periodLinePath} fill="none" stroke="#dc2626" strokeWidth={2} opacity={0.75} />
 
           {/* Day separator lines */}
           {dayGroups.slice(1).map((g, i) => (
@@ -331,22 +329,16 @@ export function WaveChart({ data }: WaveChartProps) {
                 y1={0}
                 x2={activeX}
                 y2={H}
-                stroke="url(#hoverLineGrad)"
-                strokeWidth={2}
-                opacity={0.8}
+                stroke="#dc2626"
+                strokeWidth={1.5}
+                opacity={0.7}
               />
-              <defs>
-                <linearGradient id="hoverLineGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#00d4ff" />
-                  <stop offset="100%" stopColor="#ff3d7f" />
-                </linearGradient>
-              </defs>
               {/* Wave dot */}
               <circle
                 cx={activeX}
                 cy={interpY(wavePoints2, activeX)}
-                r={5}
-                fill="#00d4ff"
+                r={4}
+                fill="#5bb8d4"
                 stroke="#fff"
                 strokeWidth={2}
               />
@@ -354,19 +346,19 @@ export function WaveChart({ data }: WaveChartProps) {
               <circle
                 cx={activeX}
                 cy={interpY(periodPoints, activeX)}
-                r={4}
-                fill="#ff3d7f"
+                r={3}
+                fill="#dc2626"
                 stroke="#fff"
-                strokeWidth={2}
+                strokeWidth={1.5}
               />
               {/* Wind dot */}
               <circle
                 cx={activeX}
                 cy={interpY(windPoints, activeX)}
-                r={4}
-                fill="#84cc16"
+                r={3}
+                fill="#9ca3af"
                 stroke="#fff"
-                strokeWidth={2}
+                strokeWidth={1.5}
               />
             </>
           )}
@@ -374,29 +366,29 @@ export function WaveChart({ data }: WaveChartProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-3 px-3 pb-2 md:gap-5 md:px-5 md:pb-3">
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2 md:w-3 md:h-2.5 rounded-full" style={{ backgroundColor: "#00d4ff" }} />
-          <span className="text-[9px] md:text-[11px] text-white/50 font-medium">Altura</span>
+      <div className="flex items-center justify-center gap-2 px-2 pb-1 md:gap-4 md:px-4 md:pb-2">
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#5bb8d4" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Altura</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2 md:w-3 md:h-2.5 rounded-full" style={{ backgroundColor: "#84cc16" }} />
-          <span className="text-[9px] md:text-[11px] text-white/50 font-medium">Vento</span>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-1.5 md:w-3 md:h-2 rounded-sm" style={{ backgroundColor: "#9ca3af" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Vento</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-1 md:w-3 rounded-full" style={{ backgroundColor: "#ff3d7f" }} />
-          <span className="text-[9px] md:text-[11px] text-white/50 font-medium">Periodo</span>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-2 h-0.5 md:w-3 rounded-sm" style={{ backgroundColor: "#dc2626" }} />
+          <span className="text-[8px] md:text-[10px] text-muted-foreground">Periodo</span>
         </div>
       </div>
 
       {/* Bottom metrics */}
-      <div className="flex items-center justify-between border-t border-white/5 px-2 py-3 gap-1 md:px-4 md:py-4 md:gap-2">
+      <div className="flex items-center justify-between border-t border-border px-1 py-2 gap-0.5 md:px-2 md:py-3 md:gap-1">
         <MetricItem
           label="ALTURA"
           value={`${formatNum(point?.waveHeight, 1)} m`}
-          color="text-[#00d4ff]"
+          color="text-sky-400"
           icon={
-            <svg width="14" height="14" viewBox="0 0 24 24" className="text-[#00d4ff] md:w-4 md:h-4">
+            <svg width="12" height="12" viewBox="0 0 24 24" className="text-sky-400 md:w-4 md:h-4">
               <path d="M2 12c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
               <path d="M2 18c2-3 4-4 6-4s4 1 6 4 4 4 6 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
             </svg>
@@ -405,9 +397,9 @@ export function WaveChart({ data }: WaveChartProps) {
         <MetricItem
           label="PERIODO"
           value={`${formatNum(point?.wavePeriod, 1)} s`}
-          color="text-[#ff3d7f]"
+          color="text-red-400"
           icon={
-            <svg width="14" height="14" viewBox="0 0 24 24" className="text-[#ff3d7f] md:w-4 md:h-4">
+            <svg width="12" height="12" viewBox="0 0 24 24" className="text-red-400 md:w-4 md:h-4">
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" fill="none" />
               <path d="M12 7v5l3 3" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -416,30 +408,30 @@ export function WaveChart({ data }: WaveChartProps) {
         <MetricItem
           label="DIRECAO"
           value={degToCompass(point?.waveDirDeg)}
-          color="text-[#a855f7]"
+          color="text-sky-400"
           showArrow
           arrowDeg={point?.waveDirDeg}
         />
         <div className="flex flex-col items-center text-center min-w-0 flex-1">
-          <span className="text-[8px] md:text-[10px] font-black uppercase tracking-wide text-[#84cc16] leading-tight">
+          <span className="text-[7px] md:text-[9px] font-bold uppercase tracking-wide text-muted-foreground leading-tight">
             VENTO
           </span>
-          <div className="flex items-center gap-1 mt-1">
+          <div className="flex items-center gap-0.5 mt-0.5">
             {typeof point?.windDirDeg === "number" && (
               <svg
-                width="12"
-                height="12"
+                width="10"
+                height="10"
                 viewBox="0 0 24 24"
-                className="text-[#84cc16] shrink-0 md:w-4 md:h-4"
+                className="text-gray-400 shrink-0 md:w-3.5 md:h-3.5"
                 style={{ transform: `rotate(${point.windDirDeg}deg)` }}
               >
                 <path d="M12 2l0 20M12 2l-5 5M12 2l5 5" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
-            <span className="text-sm md:text-lg font-black text-foreground leading-none">
+            <span className="text-[11px] md:text-base font-extrabold text-foreground leading-none">
               {Math.round(point?.windSpeed ?? 0)}
             </span>
-            <span className="text-sm md:text-lg font-bold text-white/50 leading-none">
+            <span className="text-[11px] md:text-lg font-black text-gray-300 leading-none">
               {degToCompass(point?.windDirDeg)}
             </span>
           </div>
@@ -466,25 +458,25 @@ function MetricItem({
 }) {
   return (
     <div className="flex flex-col items-center text-center min-w-0 flex-1">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1">
         {icon && <span className="shrink-0">{icon}</span>}
-        <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-wide ${color} leading-tight`}>
+        <span className={`text-[7px] md:text-[9px] font-bold uppercase tracking-wide ${color} leading-tight`}>
           {label}
         </span>
       </div>
-      <div className="flex items-center gap-1 mt-1">
+      <div className="flex items-center gap-0.5 mt-0.5">
         {showArrow && typeof arrowDeg === "number" && (
           <svg
-            width="12"
-            height="12"
+            width="10"
+            height="10"
             viewBox="0 0 24 24"
-            className={`${color} shrink-0 md:w-4 md:h-4`}
+            className={`${color} shrink-0 md:w-3 md:h-3`}
             style={{ transform: `rotate(${arrowDeg}deg)` }}
           >
             <path d="M12 2l0 20M12 2l-5 5M12 2l5 5" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
-        <span className="text-sm md:text-lg font-black text-foreground leading-none">{value}</span>
+        <span className="text-[11px] md:text-base font-extrabold text-foreground leading-none">{value}</span>
       </div>
     </div>
   )
