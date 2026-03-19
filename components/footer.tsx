@@ -33,13 +33,15 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-[rgba(255,255,255,0.06)] bg-[rgba(10,15,25,0.8)] backdrop-blur-[10px]">
+    <footer className="border-t backdrop-blur-[10px]
+      border-[rgba(255,255,255,0.06)] bg-[rgba(10,15,25,0.8)]
+      [.light_&]:border-slate-200 [.light_&]:bg-slate-50/90">
       <div className="mx-auto max-w-[1440px] px-6 py-12 lg:px-8">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Logo e descricao */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_12px_rgba(56,189,248,0.35)]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary bg-primary/10 shadow-[0_0_12px_rgba(56,189,248,0.35)] [.light_&]:shadow-[0_0_12px_rgba(3,105,161,0.2)]">
                 <Waves className="h-5 w-5 text-primary" />
               </div>
               <span className="text-lg font-extrabold uppercase tracking-tight text-foreground">

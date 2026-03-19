@@ -31,14 +31,14 @@ export function ThemeToggle() {
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background
         ${isDark
           ? "bg-white/5 border-white/8 hover:bg-white/10 hover:border-white/15"
-          : "bg-sky-50 border-sky-200 hover:bg-sky-100 hover:border-sky-300 shadow-sm"
+          : "bg-slate-100 border-slate-200 hover:bg-slate-200 hover:border-slate-300"
         }
       `}
     >
       {/* Active theme indicator strip */}
       <span
         className={`absolute top-0 left-0 right-0 h-[2px] rounded-t-xl transition-all duration-300 ${
-          isDark ? "bg-primary" : "bg-sky-500"
+          isDark ? "bg-primary" : "bg-primary"
         }`}
       />
 
@@ -57,7 +57,7 @@ export function ThemeToggle() {
           isDark ? "opacity-0 scale-50 -rotate-90" : "opacity-100 scale-100 rotate-0"
         }`}
       >
-        <Moon className="h-[18px] w-[18px] text-sky-600" />
+        <Moon className="h-[18px] w-[18px] text-slate-600" />
       </span>
     </button>
   )
