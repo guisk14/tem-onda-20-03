@@ -108,8 +108,20 @@ export function Topbar() {
         </h1>
       </div>
 
-      {/* Notification Bell - Left side */}
-      <div ref={notifRef} className="relative hidden lg:flex">
+      <button
+        className="flex items-center justify-center w-[42px] h-[42px] rounded-xl bg-white/5 lg:hidden ml-auto transition-colors hover:bg-white/10"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Menu"
+      >
+        {menuOpen ? (
+          <X className="h-5 w-5 text-foreground" />
+        ) : (
+          <Menu className="h-5 w-5 text-foreground" />
+        )}
+      </button>
+
+      {/* Notification Bell */}
+      <div ref={notifRef} className="relative ml-auto lg:ml-0">
         <button
           onClick={() => setNotifOpen((v) => !v)}
           aria-label="Notificações"
@@ -125,7 +137,7 @@ export function Topbar() {
 
         {/* Dropdown */}
         {notifOpen && (
-          <div className="absolute left-0 top-[calc(100%+10px)] z-50 w-80 rounded-2xl border border-white/10 bg-[rgba(18,18,20,0.95)] shadow-2xl backdrop-blur-xl overflow-hidden">
+          <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 rounded-2xl border border-white/10 bg-[rgba(18,18,20,0.95)] shadow-2xl backdrop-blur-xl overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
               <span className="text-sm font-semibold text-foreground">Notificações</span>
@@ -182,18 +194,6 @@ export function Topbar() {
           </div>
         )}
       </div>
-
-      <button
-        className="flex items-center justify-center w-[42px] h-[42px] rounded-xl bg-white/5 lg:hidden ml-auto transition-colors hover:bg-white/10"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Menu"
-      >
-        {menuOpen ? (
-          <X className="h-5 w-5 text-foreground" />
-        ) : (
-          <Menu className="h-5 w-5 text-foreground" />
-        )}
-      </button>
 
       <nav
         className={`${
