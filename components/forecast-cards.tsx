@@ -61,18 +61,18 @@ function getHeightColor(height: number): { accent: string; bg: string; glow: str
 }
 
 const CARD_THEMES = {
-  altura: { accent: "#38bdf8", label: "Altura" },
-  periodo: { accent: "#60a5fa", label: "Periodo" },
-  direcao: { accent: "transparent", label: "Dir. Onda" },
-  vento: { accent: "#34d399", label: "Vento" },
+  altura: { accent: "#00d4ff", label: "Altura" },
+  periodo: { accent: "#a855f7", label: "Periodo" },
+  direcao: { accent: "#ff3d7f", label: "Dir. Onda" },
+  vento: { accent: "#84cc16", label: "Vento" },
 }
 
 function CardSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border">
-      <div className="h-8 w-8 rounded-full bg-muted animate-pulse mb-3" />
-      <div className="h-3 w-16 rounded bg-muted animate-pulse mb-3" />
-      <div className="h-10 w-24 rounded bg-muted animate-pulse mb-2" />
+    <div className="flex flex-col items-center justify-center rounded-3xl bg-[rgba(20,20,30,0.6)] p-6 min-h-[180px] border border-white/5 backdrop-blur-xl">
+      <div className="h-10 w-10 rounded-xl bg-white/5 animate-pulse mb-3" />
+      <div className="h-3 w-16 rounded-full bg-white/5 animate-pulse mb-3" />
+      <div className="h-12 w-24 rounded-lg bg-white/5 animate-pulse mb-2" />
     </div>
   )
 }
@@ -92,42 +92,46 @@ interface MetricCardProps {
 function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Color, accentColor, glowBg }: MetricCardProps) {
   return (
     <div
-      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border"
-      style={{
-        borderTop: `3px solid ${accentColor}`,
-      }}
+      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl p-4 sm:p-6 min-h-[130px] sm:min-h-[180px] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] bg-[rgba(20,20,30,0.6)] border border-white/5 backdrop-blur-xl"
     >
+      {/* Gradient border on top */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-1 rounded-t-3xl"
+        style={{
+          background: `linear-gradient(90deg, ${accentColor}, ${accentColor}80)`,
+        }}
+      />
+
       {/* Glow background on hover */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(circle at 50% 20%, ${glowBg || "rgba(56,189,248,0.08)"}, transparent 70%)`,
+          background: `radial-gradient(circle at 50% 20%, ${glowBg || "rgba(0,212,255,0.1)"}, transparent 70%)`,
         }}
       />
 
       {/* Icon */}
-      <div className="relative mb-1 sm:mb-3" style={{ color: accentColor }}>
+      <div className="relative mb-2 sm:mb-3 p-2 rounded-xl bg-white/5" style={{ color: accentColor }}>
         {icon}
       </div>
 
       {/* Label */}
       <span
-        className="relative text-[0.55rem] sm:text-[0.65rem] font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase"
-        style={{ color: "rgba(139,164,189,0.7)" }}
+        className="relative text-[0.6rem] sm:text-xs font-bold tracking-[0.1em] sm:tracking-[0.12em] uppercase text-white/40"
       >
         {label}
       </span>
 
       {/* Value */}
-      <div className="relative mt-0.5 sm:mt-2 flex items-baseline gap-0.5 sm:gap-1">
+      <div className="relative mt-1 sm:mt-2 flex items-baseline gap-0.5 sm:gap-1">
         <span
-          className="text-3xl sm:text-[3rem] font-extrabold leading-none text-foreground"
+          className="text-3xl sm:text-[3.25rem] font-black leading-none text-foreground"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value}
         </span>
         {unit && (
-          <span className="text-base sm:text-xl font-semibold text-muted-foreground opacity-50">
+          <span className="text-base sm:text-xl font-bold text-white/30">
             {unit}
           </span>
         )}
@@ -135,7 +139,7 @@ function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Co
 
       {/* Subtitle */}
       {subtitle && (
-        <span className="relative mt-1 sm:mt-1.5 text-[0.55rem] sm:text-xs font-medium text-muted-foreground opacity-70">
+        <span className="relative mt-1.5 sm:mt-2 text-[0.6rem] sm:text-xs font-medium text-white/50">
           {subtitle}
         </span>
       )}
@@ -143,8 +147,8 @@ function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Co
       {/* Subtitle 2 */}
       {subtitle2 && (
         <span 
-          className="relative mt-0.5 text-[0.5rem] sm:text-[0.65rem] font-bold uppercase tracking-wide"
-          style={{ color: subtitle2Color || accentColor }}
+          className="relative mt-1 text-[0.55rem] sm:text-[0.7rem] font-black uppercase tracking-wide px-2 py-0.5 rounded-full"
+          style={{ color: subtitle2Color || accentColor, backgroundColor: `${subtitle2Color || accentColor}15` }}
         >
           {subtitle2}
         </span>
@@ -169,35 +173,35 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
   const heightColors = getHeightColor(data.currentHeight)
 
   return (
-    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <MetricCard
-        icon={<WaveIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
+        icon={<WaveIcon className="h-5 w-5 sm:h-7 sm:w-7" />}
         label={CARD_THEMES.altura.label}
         value={formatNum(data.currentHeight, 1)}
         unit="m"
         accentColor={CARD_THEMES.altura.accent}
-        glowBg="rgba(56,189,248,0.1)"
+        glowBg="rgba(0,212,255,0.12)"
       />
 
       <MetricCard
-        icon={<TimerIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
+        icon={<TimerIcon className="h-5 w-5 sm:h-7 sm:w-7" />}
         label={CARD_THEMES.periodo.label}
         value={formatNum(data.currentPeriod, 0)}
         unit="s"
         accentColor={CARD_THEMES.periodo.accent}
-        glowBg="rgba(96,165,250,0.1)"
+        glowBg="rgba(168,85,247,0.12)"
       />
 
       <MetricCard
-        icon={<CompassIcon className="h-5 w-5 sm:h-8 sm:w-8" rotation={data.currentDirection} />}
+        icon={<CompassIcon className="h-5 w-5 sm:h-7 sm:w-7" rotation={data.currentDirection} />}
         label={CARD_THEMES.direcao.label}
         value={data.currentDirectionCompass}
-        accentColor="#22d3ee"
-        glowBg="transparent"
+        accentColor={CARD_THEMES.direcao.accent}
+        glowBg="rgba(255,61,127,0.12)"
       />
 
       <MetricCard
-        icon={<WindIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
+        icon={<WindIcon className="h-5 w-5 sm:h-7 sm:w-7" />}
         label={CARD_THEMES.vento.label}
         value={`${Math.round(data.currentWindSpeed)}`}
         unit="km/h"
@@ -205,7 +209,7 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
         subtitle2={`${data.currentWindType} ${data.currentWindIntensity}`}
         subtitle2Color={data.currentWindColor}
         accentColor={data.currentWindColor}
-        glowBg={data.currentWindColor === "#ef4444" ? "rgba(239,68,68,0.1)" : data.currentWindColor === "#f59e0b" ? "rgba(245,158,11,0.1)" : "rgba(52,211,153,0.1)"}
+        glowBg={data.currentWindColor === "#ef4444" ? "rgba(239,68,68,0.12)" : data.currentWindColor === "#f59e0b" ? "rgba(245,158,11,0.12)" : "rgba(132,204,22,0.12)"}
       />
     </div>
   )
