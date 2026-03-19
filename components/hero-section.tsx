@@ -138,16 +138,11 @@ export function HeroSection() {
 
       {/* Bottom gradient fade to page */}
       <div 
-        className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none hero-fade-gradient"
+        className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+        style={{
+          background: "linear-gradient(to top, rgba(18,18,20,1) 0%, transparent 100%)"
+        }}
       />
-      <style jsx>{`
-        .hero-fade-gradient {
-          background: linear-gradient(to top, rgb(18,18,20) 0%, transparent 100%);
-        }
-        :global(.light) .hero-fade-gradient {
-          background: linear-gradient(to top, rgb(248,250,252) 0%, transparent 100%);
-        }
-      `}</style>
 
       <style jsx>{`
         @keyframes wave-slow {

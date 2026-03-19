@@ -61,15 +61,15 @@ function getHeightColor(height: number): { accent: string; bg: string; glow: str
 }
 
 const CARD_THEMES = {
-  altura: { accent: "#22d3ee", label: "Altura" },
-  periodo: { accent: "#8b5cf6", label: "Periodo" },
-  direcao: { accent: "#ec4899", label: "Dir. Onda" },
-  vento: { accent: "#20d9a3", label: "Vento" },
+  altura: { accent: "#38bdf8", label: "Altura" },
+  periodo: { accent: "#60a5fa", label: "Periodo" },
+  direcao: { accent: "transparent", label: "Dir. Onda" },
+  vento: { accent: "#34d399", label: "Vento" },
 }
 
 function CardSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border [.light_&]:shadow-sm">
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-card p-6 min-h-[160px] border border-border">
       <div className="h-8 w-8 rounded-full bg-muted animate-pulse mb-3" />
       <div className="h-3 w-16 rounded bg-muted animate-pulse mb-3" />
       <div className="h-10 w-24 rounded bg-muted animate-pulse mb-2" />
@@ -92,9 +92,9 @@ interface MetricCardProps {
 function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Color, accentColor, glowBg }: MetricCardProps) {
   return (
     <div
-      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl p-4 sm:p-7 min-h-[140px] sm:min-h-[180px] transition-all duration-300 ease-out hover:-translate-y-2 bg-card border-2 border-border [.light_&]:shadow-md [.light_&]:hover:shadow-lg"
+      className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 min-h-[120px] sm:min-h-[170px] transition-all duration-300 ease-out hover:-translate-y-1 bg-card border border-border"
       style={{
-        borderTop: `4px solid ${accentColor}`,
+        borderTop: `3px solid ${accentColor}`,
       }}
     >
       {/* Glow background on hover */}
@@ -112,21 +112,22 @@ function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Co
 
       {/* Label */}
       <span
-        className="relative text-[0.65rem] sm:text-[0.75rem] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase text-muted-foreground"
+        className="relative text-[0.55rem] sm:text-[0.65rem] font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase"
+        style={{ color: "rgba(139,164,189,0.7)" }}
       >
         {label}
       </span>
 
       {/* Value */}
-      <div className="relative mt-1.5 sm:mt-3 flex items-baseline gap-1 sm:gap-2">
+      <div className="relative mt-0.5 sm:mt-2 flex items-baseline gap-0.5 sm:gap-1">
         <span
-          className="text-4xl sm:text-5xl font-black leading-none text-foreground"
+          className="text-3xl sm:text-[3rem] font-extrabold leading-none text-foreground"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value}
         </span>
         {unit && (
-          <span className="text-lg sm:text-2xl font-bold text-muted-foreground">
+          <span className="text-base sm:text-xl font-semibold text-muted-foreground opacity-50">
             {unit}
           </span>
         )}
@@ -134,7 +135,7 @@ function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Co
 
       {/* Subtitle */}
       {subtitle && (
-        <span className="relative mt-2 sm:mt-3 text-[0.65rem] sm:text-xs font-medium text-muted-foreground">
+        <span className="relative mt-1 sm:mt-1.5 text-[0.55rem] sm:text-xs font-medium text-muted-foreground opacity-70">
           {subtitle}
         </span>
       )}
@@ -142,8 +143,8 @@ function MetricCard({ icon, label, value, unit, subtitle, subtitle2, subtitle2Co
       {/* Subtitle 2 */}
       {subtitle2 && (
         <span 
-          className="relative mt-1.5 text-[0.65rem] sm:text-sm font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-          style={{ color: subtitle2Color || accentColor, backgroundColor: `${subtitle2Color || accentColor}15` }}
+          className="relative mt-0.5 text-[0.5rem] sm:text-[0.65rem] font-bold uppercase tracking-wide"
+          style={{ color: subtitle2Color || accentColor }}
         >
           {subtitle2}
         </span>
@@ -168,43 +169,23 @@ export function ForecastCards({ data, loading }: ForecastCardsProps) {
   const heightColors = getHeightColor(data.currentHeight)
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:gap-5 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       <MetricCard
-        icon={<WaveIcon className="h-6 w-6 sm:h-8 sm:w-8" />}
+        icon={<WaveIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
         label={CARD_THEMES.altura.label}
         value={formatNum(data.currentHeight, 1)}
         unit="m"
         accentColor={CARD_THEMES.altura.accent}
-        glowBg="rgba(34,211,238,0.12)"
+        glowBg="rgba(56,189,248,0.1)"
       />
 
       <MetricCard
-        icon={<TimerIcon className="h-6 w-6 sm:h-8 sm:w-8" />}
+        icon={<TimerIcon className="h-5 w-5 sm:h-8 sm:w-8" />}
         label={CARD_THEMES.periodo.label}
         value={formatNum(data.currentPeriod, 0)}
         unit="s"
         accentColor={CARD_THEMES.periodo.accent}
-        glowBg="rgba(139,92,246,0.12)"
-      />
-
-      <MetricCard
-        icon={<CompassIcon className="h-6 w-6 sm:h-8 sm:w-8" rotation={data.currentDirection} />}
-        label={CARD_THEMES.direcao.label}
-        value={data.currentDirectionCompass}
-        accentColor={CARD_THEMES.direcao.accent}
-        glowBg="rgba(236,72,153,0.12)"
-      />
-
-      <MetricCard
-        icon={<WindIcon className="h-6 w-6 sm:h-8 sm:w-8" />}
-        label={CARD_THEMES.vento.label}
-        value={`${Math.round(data.currentWindSpeed)}`}
-        unit="km/h"
-        subtitle={`${windDir} · Raj. ${Math.round(data.currentWindGust)} km`}
-        subtitle2={`${data.currentWindType} ${data.currentWindIntensity}`}
-        subtitle2Color={data.currentWindColor}
-        accentColor={data.currentWindColor}
-        glowBg={data.currentWindColor === "#ff5555" ? "rgba(255,85,85,0.12)" : data.currentWindColor === "#ffa500" ? "rgba(255,165,0,0.12)" : "rgba(32,217,163,0.12)"}
+        glowBg="rgba(96,165,250,0.1)"
       />
 
       <MetricCard

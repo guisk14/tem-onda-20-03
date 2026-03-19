@@ -144,7 +144,7 @@ export function BeachSelector({
         {isOpen && (
           <ul
             ref={listRef}
-            className="absolute z-50 mt-2 w-full max-h-64 overflow-auto rounded-lg border border-border bg-popover shadow-xl [.light_&]:shadow-lg"
+            className="absolute z-50 mt-2 w-full max-h-64 overflow-auto rounded-lg border border-border bg-popover shadow-xl"
           >
             {filteredBeaches.length > 0 ? (
               filteredBeaches.map((beach, index) => (
